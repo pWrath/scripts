@@ -12,14 +12,14 @@ function RagebotLog() {
 
 
     var cType = library.fetchDropdown("Color theme");
-    if (cType.indexOf("none") != -1)
-    {
+    //if (cType.indexOf("none") != -1)
+   // {
         var pColor = UI.GetColor('MISC', 'JAVASCRIPT', 'Script items', "Ragebot log color");
-    }
-    else
-    {
-        var pColor = globalColor;
-    }
+   // }
+   // else
+   // {
+   //     var pColor = globalColor;
+   // }
 
     var targetName = Entity.GetName(Event.GetInt("target_index"));
     var targetEyePos = Entity.GetProp(Event.GetInt("target_index"), "CCSPlayer", "m_angEyeAngles");
@@ -56,15 +56,15 @@ function DamageTakenLog() {
     }
 
 
-    var cType = library.fetchDropdown("Color theme");
-    if (cType.indexOf("none") != -1)
-    {
+   // var cType = library.fetchDropdown("Color theme");
+   // if (cType.indexOf("none") != -1)
+   // {
         var pColor = UI.GetColor('MISC', 'JAVASCRIPT', 'Script items', "Damage taken log color");
-    }
-    else
-    {
-        var pColor = globalColor;
-    }
+   // }
+   // else
+   // {
+   //     var pColor = globalColor;
+    //}
 
 
     if (Entity.GetEntityFromUserID(Event.GetInt("userid")) == Entity.GetLocalPlayer()) {
@@ -88,15 +88,15 @@ function DamageGivenLog() {
     }
 
 
-    var cType = library.fetchDropdown("Color theme");
-    if (cType.indexOf("none") != -1)
-    {
+  //  var cType = library.fetchDropdown("Color theme");
+  //  if (cType.indexOf("none") != -1)
+  //  {
         var pColor = UI.GetColor('MISC', 'JAVASCRIPT', 'Script items', "Damage given log color");
-    }
-    else
-    {
-        var pColor = globalColor;
-    }
+   // }
+   // else
+    //{
+    //    var pColor = globalColor;
+    //}
 
     if (Entity.GetEntityFromUserID(Event.GetInt("attacker")) == Entity.GetLocalPlayer()) {
         var hitLog = "You hit " + Entity.GetName(Entity.GetEntityFromUserID(Event.GetInt("userid"))) + " in the " + 
@@ -141,7 +141,7 @@ function main() {
     library.createDropdown("Ragebot log options", ["Add velocity", "Add viewangles", "Add hitchance", "Add safe point", "Add exploit"], true);
     
     library.createDropdown("Damage log types", ["Damage taken", "Damage given"], true);
-    library.createDropdown("Color theme", ["none", "Damage given"], true);
+    //library.createDropdown("Color theme", ["none", "Damage given"], true);
     UI.AddColorPicker("Ragebot log color");
     UI.AddColorPicker("Damage taken log color");
     UI.AddColorPicker("Damage given log color");
