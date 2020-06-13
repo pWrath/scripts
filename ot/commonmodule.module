@@ -1,0 +1,1277 @@
+var binlib = {};
+function dictLength(dict) {
+    var count = 0;
+    for (_ in dict) {
+        count++;
+    }
+    return count;
+}
+
+/**
+  * @param {string} name - The name displayed within the menu.
+  * @param {string[]} values - The options that will be shown in the dropdown.
+  * @param {boolean} multi - Allows you to have multiple selected options.
+  * @return {void}
+ */
+exports.createDropdown = function(name, values, multi) {
+    UI[multi ? "AddMultiDropdown" : "AddDropdown"](name, values);
+
+    binlib[name] = { "multi": multi, "values": {} };
+
+    multi && values.reverse();
+
+    var i = 0; for (value in values) {
+        var index = multi ? (1 << (values.length - (i + 1))) : i;
+        binlib[name].values[index] = values[value];
+        i++;
+    }
+}
+
+/**
+  * @param {(string|undefined)} name - Fetches the selected option(s) of a specified dropdown, if undefined it will return all saved dropdowns' selected item(s).
+  * @return {(Array|Dictionary[])} - If name is undefined the format is {Dropdown1: ["Slecected1", "Selected2"], Dropdown2: ["Slecected1", "Selected2"]}, else it will return a single array of selected items.
+ */
+exports.fetchDropdown = function(name) {
+    var selection = (name ? [] : {})
+    var bin = UI.GetValue("Misc", name);
+
+    !name && function () { for (dropdown in binlib) selection[dropdown] = fetchDropdown(dropdown) }();
+
+    if (name) {
+        !binlib[name].multi && bin == 0 && selection.push(binlib[name].values[0]) && function () { return selection; }();
+        for (var i = dictLength(binlib[name].values) - 1; i >= 0; i--) {
+            if (!binlib[name].multi && i == 0) continue;
+
+            var index = binlib[name].multi ? (1 << i) : i;
+            if (bin - index >= 0) {
+                bin -= (index);
+                selection.push(binlib[name].values[index]);
+            }
+        }
+    }
+
+    return selection;
+}
+
+/** 
+ * @param {Number} index - The index of the hitbox, goes from 0 to 18 anything else is will return generic
+ * @returns {string} - Will return the name of the hitbox that corresponds with the index
+ */
+exports.returnHitbox = function(index) {
+    var hitboxName = "";
+    switch (index) {
+        case 0:
+            hitboxName = "Head";
+            break;
+        case 1:
+            hitboxName = "Neck";
+            break;
+        case 2:
+            hitboxName = "Pelvis";
+            break;
+        case 3:
+            hitboxName = "Body";
+            break;
+        case 4:
+            hitboxName = "Thorax";
+            break;
+        case 5:
+            hitboxName = "Chest";
+            break;
+        case 6:
+            hitboxName = "Upper chest";
+            break;
+        case 7:
+            hitboxName = "Left thigh";
+            break;
+        case 8:
+            hitboxName = "Right thigh";
+            break;
+        case 9:
+            hitboxName = "Left calf";
+            break;
+        case 10:
+            hitboxName = "Right calf";
+            break;
+        case 11:
+            hitboxName = "Left foot";
+            break;
+        case 12:
+            hitboxName = "Right foot";
+            break;
+        case 13:
+            hitboxName = "Left hand";
+            break;
+        case 14:
+            hitboxName = "Right hand";
+            break;
+        case 15:
+            hitboxName = "Left upper arm";
+            break;
+        case 16:
+            hitboxName = "Left forearm";
+            break;
+        case 17:
+            hitboxName = "Right upper arm";
+            break;
+        case 18:
+            hitboxName = "Right forearm";
+            break;
+        default:
+            hitboxName = "Generic";
+    }
+    return hitboxName;
+}
+
+/**
+ * @param {Number} index - The index of the hitgroup, goes from 0 to 7 anything else will return "unknown", this should never happen
+ * @returns {string} - Will return the name of the hitgroup that corresponds with the index
+ */
+exports.returnHitgroup = function(index) {
+    var hitgroupName = "";
+    switch (index) {
+        case 0:
+            hitgroupName = "Generic";
+            break;
+        case 1:
+            hitgroupName = "Head";
+            break;
+        case 2:
+            hitgroupName = "Chest";
+            break;
+        case 3:
+            hitgroupName = "Stomach";
+            break;
+        case 4:
+            hitgroupName = "Left Arm";
+            break;
+        case 5:
+            hitgroupName = "Right Arm";
+            break;
+        case 6:
+            hitgroupName = "Left Leg";
+            break;
+        case 7:
+            hitgroupName = "Right Leg";
+            break;
+        default:
+            hitgroupName = "unknown"
+            break;
+    }
+    return hitgroupName;
+}
+
+/**
+ * @param {Number} index - The index of the exploit, goes from 0 to 1 anything else will return doubletap AS OF WRITING THIS Event.GetInt("exploit") DOES NOT WORK RIGHT
+ * @returns {string} - Returns the name of the exploit that corresponds with the index
+ */
+exports.returnExploit = function(index) {
+    var returnVal;
+    if (index == 0) {
+        returnVal = "False";
+    }
+    else if (index == 1) {
+        returnVal = "Hide shots";
+    }
+    else {
+        returnVal = "doubletap";
+    }
+    return returnVal;
+}
+
+/**
+ * @param {Number} index - The index of safepoint, 0 being No 1 being yes
+ * @returns {string} - Returns whether safepoint is on or not
+ */
+exports.returnSafepoint = function(index) {
+    var returnVal = "";
+    if (index == 1) {
+        returnVal = "Yes";
+    }
+    else {
+        returnVal = "No";
+    }
+    return returnVal;
+}
+
+/**
+ * @param {Number} index - The index of the player you want to get the velocity from
+ * @returns {Number} - Returns players velocity in units 
+ */
+exports.getVelocity = function(index) {
+    var vel = Entity.GetProp(index, "CBasePlayer", "m_vecVelocity[0]");
+    return Math.sqrt(Math.pow(vel[0], 2) + Math.pow(vel[1], 2));
+}
+
+/**
+ * turns color from an HSV format into RGB
+ * @param {Number} h- A hue value for an HSV color 
+ * @param {Number} s - A saturation value for an HSV color
+ * @param {Number} v - A value for an HSV color
+ * @returns {array} - Returns an array of an RGB color [r, g, b]
+ */
+exports.HSVtoRGB = function(h,s,v){
+    var r, g, b, i, f, p, q, t;
+    if (arguments.length === 1) {
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return [
+        Math.round(r * 255),
+        Math.round(g * 255),
+        Math.round(b * 255),
+        255
+    ]
+}
+
+/**
+ * Converts radians into degrees
+ * @param {Number} rad - The radian value.
+ * @returns {Number} - Degree from radian value 
+ */
+exports.radianToDegree = function(rad)
+{
+  return rad * 180 / Math.PI;
+}
+
+/**
+ * Converts degrees into radians
+ * @param {Number} rad - The degree value.
+ * @returns {Number} - Radian from degree value
+ */
+exports.degreeToRadian = function(deg)
+{
+  return deg * Math.PI / 180;
+}
+
+/**
+ * Creates a new Angle instance
+ * @param  {Number|Array} p  - Pitch
+ * @param  {Number} y  - Yaw
+ * @param  {Number} r  - Roll
+ * @return {void}
+ */
+exports.Angle = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = p[0] || 0;
+      this.y = p[1] || 0;
+      this.r = p[2] || 0;
+      return;
+  }
+
+  this.p = p || 0;
+  this.y = y || 0;
+  this.r = r || 0;
+}
+
+
+/**
+ * Overrides the values of a Angle object.
+ * @param  {Number|Array} p - New pitch
+ * @param  {Number} y - New yaw
+ * @param  {Number} r - New roll
+ * @return {void}
+ */
+exports.Angle.prototype.set = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+    this.p = p[0] || 0;
+    this.y = p[1] || 0;
+    this.r = p[2] || 0;
+    return;
+  }
+
+  this.p = p || 0;
+  this.y = y || 0;
+  this.r = r || 0;
+}
+
+
+/**
+ * Adds an offset to your Angle
+ * @param  {Number|Array} p - Pitch offset
+ * @param  {Number} y - Yaw offset
+ * @param  {Number} r - Roll offset
+ * @return {void}
+ */
+exports.Angle.prototype.offset = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+    this.p = this.p + (p[0] || 0);
+    this.y = this.y + (p[1] || 0);
+    this.r = this.r + (p[2] || 0);
+    return;
+  }
+
+  this.p = this.p + (p || 0);
+  this.y = this.y + (y || 0);
+  this.r = this.r + (r || 0);
+}
+
+
+/**
+ * Creates a new Angle instance from already existing Angle object.
+ * @return {Angle} - The original Angle object.
+ */
+exports.Angle.prototype.copy = function()
+{
+  return new exports.Angle(
+    this.p,
+    this.y,
+    this.r
+  );
+}
+
+
+/**
+ * Creates a new Angle instance from already existing Angle object with an offset.
+ * @param  {Number|Array} p - Pitch offset
+ * @param  {Number} y - Yaw offset
+ * @param  {Number} r - Roll offset
+ * @return {Angle}  - The new Angle object.
+ */
+exports.Angle.prototype.copyOffset = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+    return new exports.Angle(
+      this.p + (p[0] || 0),
+      this.y + (p[1] || 0),
+      this.r + (p[2] || 0)
+    );
+  }
+
+  return new exports.Angle(
+    this.p + (p || 0),
+    this.y + (y || 0),
+    this.r + (r || 0)
+  );
+}
+
+
+/**
+ * Returns the Angle object into an array.
+ * @return {Array} - The Angles array.
+ */
+exports.Angle.prototype.toArray = function()
+{
+  return [this.p, this.y, this.r];
+}
+
+/**
+ * Set all Angles to 0
+ *
+ * @return {void}
+ */
+exports.Angle.prototype.zero = function()
+{
+  this.p = 0;
+  this.y = 0;
+  this.r = 0;
+}
+
+
+/**
+ * Converts the Angle object into an string.
+ *
+ * @return {String}  The converted string.
+ */
+exports.Angle.prototype.toString = function()
+{
+  return this.p + ", " + this.y + ", " + this.r;
+}
+
+
+/**
+ * Adds a value, an array or another Angle object to this Angle instance.
+ *
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.add = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p + (p[0] || 0);
+      this.y = this.y + (p[1] || 0);
+      this.r = this.r + (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p + (p.p || 0);
+    this.y = this.y + (p.y || 0);
+    this.r = this.r + (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p + p;
+    this.y = this.y + p;
+    this.r = this.r + p;
+    return;
+  }
+
+    this.p = this.p + (p || 0);
+    this.y = this.y + (y || 0);
+    this.r = this.r + (r || 0);
+}
+
+/**
+ * Subtract a value, an array or another Angle object to this Angle instance.
+ *
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.sub = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p - (p[0] || 0);
+      this.y = this.y - (p[1] || 0);
+      this.r = this.r - (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p - (p.p || 0);
+    this.y = this.y - (p.y || 0);
+    this.r = this.r - (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p - p;
+    this.y = this.y - p;
+    this.r = this.r - p;
+    return;
+  }
+
+    this.p = this.p - (p || 0);
+    this.y = this.y - (y || 0);
+    this.r = this.r - (r || 0);
+}
+
+/**
+ * Multiplies a value, an array or another Angle object to this Angle instance.
+ *
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.multiply = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p * (p[0] || 0);
+      this.y = this.y * (p[1] || 0);
+      this.r = this.r * (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p * (p.p || 0);
+    this.y = this.y * (p.y || 0);
+    this.r = this.r * (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p * p;
+    this.y = this.y * p;
+    this.r = this.r * p;
+    return;
+  }
+
+    this.p = this.p * (p || 0);
+    this.y = this.y * (y || 0);
+    this.r = this.r * (r || 0);
+}
+
+/**
+ * Divide a value, an array or another Angle object to this Angle instance.
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.divide = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p / (p[0] || 0);
+      this.y = this.y / (p[1] || 0);
+      this.r = this.r / (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p / (p.p || 0);
+    this.y = this.y / (p.y || 0);
+    this.r = this.r / (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p / p;
+    this.y = this.y / p;
+    this.r = this.r / p;
+    return;
+  }
+
+    this.p = this.p / (p || 0);
+    this.y = this.y / (y || 0);
+    this.r = this.r / (r || 0);
+}
+
+/**
+ * Powers a value, an array or another Angle object to this Angle instance.
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.pow = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p ** (p[0] || 0);
+      this.y = this.y ** (p[1] || 0);
+      this.r = this.r ** (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p ** (p.p || 0);
+    this.y = this.y ** (p.y || 0);
+    this.r = this.r ** (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p ** p;
+    this.y = this.y ** p;
+    this.r = this.r ** p;
+    return;
+  }
+
+    this.p = this.p ** (p || 0);
+    this.y = this.y ** (y || 0);
+    this.r = this.r ** (r || 0);
+}
+
+/**
+ * Mods a value, an array or another Angle object to this Angle instance.
+ * @param  {Number|Array|Angle} p The pitch amount
+ * @param  {Number} y The yaw amount
+ * @param  {Number} r The roll amount
+ * @return {Angle}   The final Angle.
+ */
+exports.Angle.prototype.mod = function(p, y, r)
+{
+  if (p instanceof Array)
+  {
+      this.p = this.p % (p[0] || 0);
+      this.y = this.y % (p[1] || 0);
+      this.r = this.r % (p[2] || 0);
+      return;
+  }
+
+  if (p instanceof exports.Angle)
+  {
+    this.p = this.p % (p.p || 0);
+    this.y = this.y % (p.y || 0);
+    this.r = this.r % (p.r || 0);
+    return;
+  }
+
+  if (p != undefined && y == undefined && r == undefined)
+  {
+    this.p = this.p % p;
+    this.y = this.y % p;
+    this.r = this.r % p;
+    return;
+  }
+
+    this.p = this.p % (p || 0);
+    this.y = this.y % (y || 0);
+    this.r = this.r % (r || 0);
+}
+
+/**
+ * Inverts your Angle object
+ *
+ * @return {void}
+ */
+exports.Angle.prototype.negative = function()
+{
+  this.p = -this.p;
+  this.y = -this.y;
+  this.r = -this.r;
+}
+
+/**
+ * Rounds your Angle object's values to the nearest digit.
+ *
+ * @return {void}
+ */
+exports.Angle.prototype.round = function()
+{
+  this.p = Math.round(this.p);
+  this.y = Math.round(this.y);
+  this.r = Math.round(this.r);
+}
+
+/**
+ * @constructor Vector
+ *
+ * @param  {Number|Array} x The X value
+ * @param  {Number} y The Y value
+ * @param  {Number} z The Z value
+ * @return {void}
+ */
+exports.Vector = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+    this.x = x[0] || 0;
+    this.y = x[1] || 0;
+    this.z = x[2] || 0;
+    return;
+  }
+
+  this.x = x || 0;
+  this.y = y || 0;
+  this.z = z || 0;
+}
+
+/**
+ * Overrides the values of a Vector object.
+ *
+ * @param  {Number|Array} p New X
+ * @param  {Number} y New Y
+ * @param  {Number} r New Z
+ * @return {void}
+ */
+exports.Vector.prototype.set = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+    this.x = x[0] || 0;
+    this.y = x[1] || 0;
+    this.z = x[2] || 0;
+    return;
+  }
+
+  this.x = x || 0;
+  this.y = y || 0;
+  this.z = z || 0;
+}
+
+/**
+ * Adds an offset to your Vector
+ *
+ * @param  {Number|Array} p X offset
+ * @param  {Number} y Y offset
+ * @param  {Number} r Z offset
+ * @return {void}
+ */
+exports.Vector.prototype.offset = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+    this.x = this.x + (x[0] || 0);
+    this.y = this.y + (x[1] || 0);
+    this.z = this.z + (x[2] || 0);
+    return;
+  }
+
+  this.x = this.x + (x || 0);
+  this.y = this.y + (y || 0);
+  this.z = this.z + (z || 0);
+}
+
+/**
+ * Creates a new Vector instance from already existing Angle object.
+ *
+ * @return {Vector}  The original Vector object.
+ */
+exports.Vector.prototype.copy = function()
+{
+  return new exports.Vector(
+    this.x,
+    this.y,
+    this.z
+  );
+}
+
+/**
+ * Creates a new Vector instance from already existing Vector object with an offset.
+ *
+ * @param  {Number|Array} p X offset
+ * @param  {Number} y Y offset
+ * @param  {Number} r Z offset
+ * @return {Vector}   The new Vector object.
+ */
+exports.Vector.prototype.copyOffset = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+    return new exports.Vector(
+      this.x + (x[0] || 0),
+      this.y + (x[1] || 0),
+      this.z + (x[2] || 0)
+    );
+  }
+
+  return new exports.Vector(
+    this.x + (x || 0),
+    this.y + (y || 0),
+    this.z + (z || 0)
+  );
+}
+
+/**
+ * Returns the Vector object into an array.
+ * @return {Array} - The Vector's array.
+ */
+exports.Vector.prototype.toArray = function()
+{
+  return [this.x, this.y, this.z];
+}
+
+/**
+ * Set all values to 0
+ * @return {void}
+ */
+exports.Vector.prototype.zero = function()
+{
+  this.x = 0;
+  this.y = 0;
+  this.z = 0;
+}
+
+/**
+ * Converts the Vector object into an string.
+ * @return {String} - The converted string.
+ */
+exports.Vector.prototype.toString = function()
+{
+  return this.x + ", " + this.y + ", " + this.z;
+}
+
+/**
+ * Adds a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.add = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x + (x[0] || 0);
+      this.y = this.y + (x[1] || 0);
+      this.z = this.z + (x[2] || 0);
+      return;
+  }
+
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x + (x.x || 0);
+    this.y = this.y + (x.y || 0);
+    this.z = this.z + (x.z || 0);
+    return;
+  }
+
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x + x;
+    this.y = this.y + x;
+    this.z = this.z + x;
+    return;
+  }
+
+    this.x = this.x + (x || 0);
+    this.y = this.y + (y || 0);
+    this.z = this.z + (z || 0);
+}
+
+/**
+ * Subtract a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.sub = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x - (x[0] || 0);
+      this.y = this.y - (x[1] || 0);
+      this.z = this.z - (x[2] || 0);
+      return;
+  }
+
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x - (x.x || 0);
+    this.y = this.y - (x.y || 0);
+    this.z = this.z - (x.z || 0);
+    return;
+  }
+
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x - x;
+    this.y = this.y - x;
+    this.z = this.z - x;
+    return;
+  }
+
+    this.x = this.x - (x || 0);
+    this.y = this.y - (y || 0);
+    this.z = this.z - (z || 0);
+}
+
+/**
+ * Multiplies a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.multiply = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x * (x[0] || 0);
+      this.y = this.y * (x[1] || 0);
+      this.z = this.z * (x[2] || 0);
+      return;
+  }
+
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x * (x.x || 0);
+    this.y = this.y * (x.y || 0);
+    this.z = this.z * (x.z || 0);
+    return;
+  }
+
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x * x;
+    this.y = this.y * x;
+    this.z = this.z * x;
+    return;
+  }
+
+    this.x = this.x * (x || 0);
+    this.y = this.y * (y || 0);
+    this.z = this.z * (z || 0);
+}
+
+/**
+ * Divides a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.divide = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x / (x[0] || 0);
+      this.y = this.y / (x[1] || 0);
+      this.z = this.z / (x[2] || 0);
+      return;
+  }
+
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x / (x.x || 0);
+    this.y = this.y / (x.y || 0);
+    this.z = this.z / (x.z || 0);
+    return;
+  }
+
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x / x;
+    this.y = this.y / x;
+    this.z = this.z / x;
+    return;
+  }
+
+
+    this.x = this.x / (x || 0);
+    this.y = this.y / (y || 0);
+    this.z = this.z / (z || 0);
+}
+
+/**
+ * Powers a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.pow = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x ** (x[0] || 0);
+      this.y = this.y ** (x[1] || 0);
+      this.z = this.z ** (x[2] || 0);
+      return;
+  }
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x ** (x.x || 0);
+    this.y = this.y ** (x.y || 0);
+    this.z = this.z ** (x.z || 0);
+    return;
+  }
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x ** x;
+    this.y = this.y ** x;
+    this.z = this.z ** x;
+    return;
+  }
+    this.x = this.x ** (x || 0);
+    this.y = this.y ** (y || 0);
+    this.z = this.z ** (z || 0);
+}
+
+/**
+ * Mods a value, an array or another Vector object to this Vector instance.
+ * @param  {Number|Array|Vector} x - The X amount
+ * @param  {Number} y - The Y amount
+ * @param  {Number} z - The Z amount
+ * @return {Vector} - The final Vector.
+ */
+exports.Vector.prototype.mod = function(x, y, z)
+{
+  if (x instanceof Array)
+  {
+      this.x = this.x % (x[0] || 0);
+      this.y = this.y % (x[1] || 0);
+      this.z = this.z % (x[2] || 0);
+      return;
+  }
+
+  if (x instanceof exports.Vector)
+  {
+    this.x = this.x % (x.x || 0);
+    this.y = this.y % (x.y || 0);
+    this.z = this.z % (x.z || 0);
+    return;
+  }
+
+  if (x != undefined && y == undefined && z == undefined)
+  {
+    this.x = this.x % x;
+    this.y = this.y % x;
+    this.z = this.z % x;
+    return;
+  }
+
+    this.x = this.x % (x || 0);
+    this.y = this.y % (y || 0);
+    this.z = this.z % (z || 0);
+}
+
+/**
+ * Inverts your Vector object
+ * @return {void}
+ */
+exports.Vector.prototype.negative = function()
+{
+  this.x = -this.x;
+  this.y = -this.y;
+  this.z = -this.z;
+}
+
+/**
+ * Rounds your Vector object's values to the nearest digit.
+ * @return {void}
+ */
+exports.Vector.prototype.round = function()
+{
+  this.x = Math.round(this.x);
+  this.y = Math.round(this.y);
+  this.z = Math.round(this.z);
+}
+
+/**
+ * Returns the 2D length of this Vector
+ * @return {Number}  The 2d Length
+ */
+exports.Vector.prototype.length2d = function()
+{
+  return Math.sqrt(this.x ** 2 + this.y ** 2);
+}
+
+/**
+ * Returns the 3D length of this Vector
+ * @return {Number}  The 3d length
+ */
+exports.Vector.prototype.length = function()
+{
+  return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
+}
+
+/**
+ * Calculates the dot product of this Vector.
+ * @param  {Vector} vec - 
+ * @return {Number} - The dot product
+ */
+exports.Vector.prototype.dotProduct = function(vec)
+{
+  return (this.x * vec.x) + (this.y * vec.y) + (this.z * vec.z);
+}
+
+/**
+ * Calculates the cross product of this Vector.
+ *
+ * @param  {Vector} vec
+ * @return {Vector} - The cross product
+ */
+exports.Vector.prototype.crossProduct = function(vec)
+{
+  return new exports.Vector(
+    (this.y * vec.z) - (this.z * vec.y),
+    (this.z * vec.x) - (this.x * vec.z),
+    (this.x * vec.y) - (this.y * vec.x)
+  );
+}
+
+
+/**
+ * Calculates the 2D distance from this Vector to another Vector.
+ * @param  {Vector} dst - The destination
+ * @return {Number} - The 2d distance
+ */
+exports.Vector.prototype.distance2d = function(dst)
+{
+  dst.sub(this);
+  return dst.length2d();
+}
+
+
+/**
+ * Calculates the 3D distance from this Vector to another Vector.
+ *
+ * @param  {Vector} dst - The destination
+ * @return {Number} - The 3d distance
+ */
+exports.Vector.prototype.distance = function(dst)
+{
+  dst.sub(this);
+  return dst.length();
+}
+
+
+/**
+ * Normalizes this Vector.
+ * This is NOT the same as Angle#Normalize
+ * @return {void}
+ */
+exports.Vector.prototype.normalize = function()
+{
+  const length = this.length();
+
+  if (length === 0)
+  {
+    this.x = 0;
+    this.y = 0;
+    this.z = 1;
+    return;
+  }
+
+  this.x = this.x / length;
+  this.y = this.y / length;
+  this.z = this.z / length;
+}
+
+
+/**
+ * Maps this Vector into your screen and returns its 2D position.
+ * @return {Vector} - The mapped 2d Vector
+ */
+exports.Vector.prototype.worldToScreen = function()
+{
+  const screen = Render.WorldToScreen(this.toArray());
+
+  if (!screen)
+    return null;
+
+  return new exports.Vector(screen[0], screen[1], 0);
+}
+
+
+/**
+ * Calculates the magnitude of the Vector
+ * Returns the speed if done in a velocity Vector.
+ * @return {Number} - The magnitude
+ */
+exports.Vector.prototype.magnitude = function()
+{
+  this.pow(2)
+  return Math.sqrt(this.x + this.y + this.z);
+}
+
+
+/**
+ * Calculates the Angle from this Vector to another.
+ *
+ * @param  {Vector} dst - The destination Vector
+ * @return {Angle} - The calculated Angles.
+ */
+exports.Vector.prototype.AngleTo = function(dst)
+{
+  dst.sub(this);
+
+  const yaw = radianToDegree(Math.atan2(dst.y, dst.x));
+  const pitch = radianToDegree(Math.atan2(-dst.z, Math.sqrt(dst.x ** 2 + dst.y ** 2)));
+
+  return new exports.Angle(pitch, yaw, 0);
+}
+
+/**
+ * Lerps a Vector by a specific fraction.
+ * @param  {Vector} dst - The destination Vector.
+ * @param  {Number} fraction - The desired fraction.
+ * @return {void}
+ */
+exports.Vector.prototype.lerp = function(dst, fraction)
+{
+  dst.sub(this);
+  dst.multiply(fraction);
+  this.add(dst);
+}
+
+/**
+ * Traces a line from this Vector to another.
+ * @param  {Number|EntityID} eid - The mask ID.
+ * @param  {Vector} dst - The destination Vector.
+ * @return {Array} - The trace info.
+ */
+exports.Vector.prototype.traceLine = function(eid, dst)
+{
+  return Trace.Line(eid, this.toArray(), dst.toArray());
+}
+
+/**
+ * Traces a bullet from this Vector to another.
+ * @param  {Number|EntityID} eid - The mask ID.
+ * @param  {Number|EntityID} target - The target ID.
+ * @param  {Vector} dst - The destination Vector.
+ * @return {Array} - The trace info.
+ */
+exports.Vector.prototype.traceBullet = function(eid, target, dst)
+{
+  return Trace.Bullet(eid, target, this.toArray(), dst.toArray());
+}
+
+/**
+ * Normalizes this Angles to match the Source Engine standards.
+ * @return {void}
+ */
+exports.Angle.prototype.normalize = function()
+{
+  if (this.x > 89)
+      this.x = 89;
+
+  if (this.x < -89)
+      this.x = -89;
+
+  while (this.y > 180)
+      this.y = this.y - 360;
+
+  while (this.y < -180)
+      this.y = this.y + 360;
+
+  this.z = 0;
+}
+
+/**
+ * Converts this Angle into a forward exports.Vector.
+ * @return {Vector} - The forward exports.Vector.
+ */
+exports.Angle.prototype.toForward = function()
+{
+  const sp = Math.sin(degreeToRadian(this.p));
+  const cp = Math.cos(degreeToRadian(this.p));
+  const sy = Math.sin(degreeToRadian(this.y));
+  const cy = Math.cos(degreeToRadian(this.y));
+
+  return new exports.Vector(cp * cy, cp * sy, -sp);
+}
+
+/**
+ * Converts this Angle into a backward exports.Vector.
+ *
+ * @return {Vector}  The backward exports.Vector.
+ */
+exports.Angle.prototype.toBackward = function()
+{
+  const result = this.toForward();
+  result.negative();
+
+  return result;
+}
+
+/**
+ * Calculates the FOV from a position to another whilst using this Angle.
+ *
+ * @param  {Vector} from - The origin Vector.
+ * @param  {Vector} to - The destination Vector.
+ * @return {Number} - The FOV delta.
+ */
+exports.Angle.prototype.fovTo = function(from, to)
+{
+  const Angles = from.AngleTo(to);
+  Angles.sub(this);
+
+  if (Angles.y > 180)
+    Angles.y = 360 - Angles.y;
+
+  return Math.sqrt(Angles.x ** 2 + Angles.y ** 2);
+}
