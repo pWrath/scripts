@@ -44,7 +44,7 @@ fetchDropdown = function (name) {
 var pistolNames = ["usp s", "cz75 auto", "dual berettas", "dual berettas", "five seven", "glock 18", "p200", "p250", "tec 9"]
 var heavypistolNames = ["desert eagle", "r8 revolver"]
 var autosniperNames = ["scar 20", "g3sg1"]
-var otherNames = ["knife", "flashbang", "decoy", "hegrenade", "incgrenade", "molotov", "smokegrenade", "tagrenade", "healthshot", "c4", "taser"]
+var otherNames = ["knife", "flashbang", "decoy", "high explosive grenade", "incendiary grenade", "molotov", "smoke grenade", "c4 explosive", "zeus x27"]
 
 function WeaponCFG(pMin, pOriginalmin) {
     this.min = pMin;
