@@ -516,8 +516,8 @@
 		"description": "Executing commands in in-game console."
 	},
 	"PrintColor":{
-		"prefix": "Cheat.ExecuteCommand(color, text)",
-		"body": "Cheat.ExecuteCommand($1, $2)",
+		"prefix": "Cheat.PrintColor(color, text)",
+		"body": "Cheat.PrintColor($1, $2)",
 		"description": "Printing colored messages to the in-game console."
 	},
 	"Print":{
@@ -569,8 +569,8 @@
 		"description": "Returns the anti-aim override state."
 	},
 	"SetOverride":{
-		"prefix": "AntiAim.GetOverride(value)",
-		"body": "AntiAim.GetOverride($1)",
+		"prefix": "AntiAim.SetOverride(value)",
+		"body": "AntiAim.SetOverride($1)",
 		"description": "Enables/disables anti-aim overriding."
 	},
 	//Exploit
