@@ -21,7 +21,7 @@
         "description": "Returns the game time in seconds."
     },
     "TickInterval":{
-        "prefix": "Globals",
+        "prefix": "Globals.TickInterval()",
         "body": "Globals.TickInterval()",
         "description": "Returns the time elapsed in one game tick in seconds."
     },
