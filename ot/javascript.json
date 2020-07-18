@@ -381,8 +381,8 @@
         "description": "Finds the float value of the given game event."
     },
     "eventGetInt":{
-        "prefix": "Event.eventGetInt(value)",
-        "body": "Event.eventGetInt()",
+        "prefix": "Event.GetInt(value)",
+        "body": "Event.GetInt()",
         "description": "Finds the integer value of the given game event."
     },
     //Trace
