@@ -1,670 +1,677 @@
 {
-	//Globals
-	"ChokedCommands":{
-		"prefix": "Globals.ChokedCommands()",
-		"body": "Globals.ChokedCommands()",
-		"description": "Returns amount of choked commands."
-	},
-	"Realtime":{
-		"prefix": "Globals.Realtime()",
-		"body": "Globals.Realtime()",
-		"description": "Returns time in seconds since CS:GO was started."
-	},
-	"FrameTime":{
-		"prefix": "Globals.FrameTime()",
-		"body": "Globals.FrameTime()",
-		"description": "Returns time in seconds since CS:GO was started."
-	},
-	"Curtime":{
-		"prefix": "Globals.Curtime()",
-		"body": "Globals.Curtime()",
-		"description": "Returns the game time in seconds."
-	},
-	"TickInterval":{
-		"prefix": "Globals",
-		"body": "Globals.TickInterval()",
-		"description": "Returns the time elapsed in one game tick in seconds."
-	},
-	"Tickrate":{
-		"prefix": "Globals.Tickrate()",
-		"body": "Globals.Tickrate()",
-		"description": "Returns server tick settings."
-	},
-	"Tickcount":{
-		"prefix": "Globals.Tickcount()",
-		"body": "Globals.Tickcount()",
-		"description": "Returns amount of ticks elapsed on the server."
-	},
-	"FrameStage":{
-		"prefix": "Globals.FrameStage()",
-		"body": "Globals.FrameStage()",
-		"description": "Returns an integer value of frame stage."
-	},
-	//UI
-	"AddLabel":{
-		"prefix": "UI.AddLabel(labelName)",
-		"body": "UI.AddLabel()",
-		"description": "Adds a text label."
-	},
-	"ToggleHotkey":{
-		"prefix": "UI.ToggleHotkey(hotkeyPath)",
-		"body": "UI.ToggleHotkey()",
-		"description": "Used to toggle hotkey."
-	},
-	"AddTextbox":{
-		"prefix": "UI.AddTextbox(textboxName)",
-		"body": "UI.AddTextbox()",
-		"description": "Adds a textbox."
-	},
-	"SetColor":{
-		"prefix": "UI.SetColor(colorPath)",
-		"body": "UI.SetColor()",
-		"description": "Set color of color picker."
-	},
-	"AddColorPicker":{
-		"prefix": "UI.AddColorPicker(colorPickerPath)",
-		"body": "UI.AddColorPicker()",
-		"description": "Adds a color picker."
-	},
-	"AddMultiDropdown":{
-		"prefix": "UI.AddMultiDropdown(dropdownName, items)",
-		"body": "UI.AddMultiDropdown()",
-		"description": "Adds a dropdown with ability to select more items."
-	},
-	"IsMenuOpen":{
-		"prefix": "UI.IsMenuOpen()",
-		"body": "UI.IsMenuOpen()",
-		"description": "Returns true if the menu is open, false otherwise."
-	},
-	"AddDropdown":{
-		"prefix": "UI.AddDropdown(dropdownName, items)",
-		"body": "UI.AddDropdown()",
-		"description": "Adds a dropdown."
-	},
-	"AddHotkey":{
-		"prefix": "UI.AddHotkey(hotkeyName)",
-		"body": "UI.AddHotkey()",
-		"description": "Adds a label with a key picker control."
-	},
-	"AddSliderFloat":{
-		"prefix": "UI.AddSliderFloat(sliderName, minValue, maxValue)",
-		"body": "UI.AddSliderFloat()",
-		"description": "Adds a floating-point slider."
-	},
-	"AddSliderInt":{
-		"prefix": "UI.AddSliderInt(sliderName, minValue, maxValue)",
-		"body": "UI.AddSliderInt()",
-		"description": "Adds an integer slider."
-	},
-	"AddCheckbox":{
-		"prefix": "UI.AddCheckbox(checkboxName)",
-		"body": "UI.AddCheckbox()",
-		"description": "Adds a checkbox control."
-	},
-	"IsHotkeyActive":{
-		"prefix": "UI.IsHotkeyActive(hotkeyPath)",
-		"body": "UI.IsHotkeyActive()",
-		"description": "Returns whether a key is currently active or not."
-	},
-	"GetColor":{
-		"prefix": "UI.GetColor(colorPath)",
-		"body": "UI.GetColor()",
-		"description": "Returns an array of color values from a control."
-	},
-	"GetString":{
-		"prefix": "UI.GetString(stringPath)",
-		"body": "UI.GetString()",
-		"description": "Returns a string representation of an item's current value."
-	},
-	"SetEnabled":{
-		"prefix": "UI.SetEnabled(itemPath, enabledValue)",
-		"body": "UI.SetEnabled()",
-		"description": "Changes menu item(s) visibility."
-	},
-	"SetValue":{
-		"prefix": "UI.SetValue(itemPath, value)",
-		"body": "UI.SetValue()",
-		"description": "Sets the value of an UI item's setting."
-	},
-	"GetValue":{
-		"prefix": "UI.GetValue(itemPath)",
-		"body": "UI.GetValue()",
-		"description": "Returns the value of UI item's setting."
-	},
-	//Entity
-	"GetRenderBox":{
-		"prefix": "Entity.GetRenderBox(entityIndex)",
-		"body": "Entity.GetRenderBox()",
-		"description": "Returns an array object with state (valid/invalid), min X, min Y, max X, max Y"
-	},
-	"GetWeapons":{
-		"prefix": "Entity.GetWeapons(entityIndex)",
-		"body": "Entity.GetWeapons()",
-		"description": "Returns an array of weapons of the entity."
-	},
-	"GetEntitiesByClassID":{
-		"prefix": "Entity.GetEntitiesByClassID(classId)",
-		"body": "Entity.GetEntitiesByClassID()",
-		"description": "Returns entities of given Class ID."
-	},
-	"GetHitboxPosition":{
-		"prefix": "Entity.GetHitboxPosition(entityIndex, hitboxIndex)",
-		"body": "Entity.GetHitboxPosition()",
-		"description": "Returns an array object with X, Y, Z for hitbox position."
-	},
-	"GetEyePosition":{
-		"prefix": "Entity.GetEyePosition(entityIndex)",
-		"body": "Entity.GetEyePosition()",
-		"description": "Returns an array object with X, Y, Z for eye position."
-	},
-	"GetGameRulesProxy":{
-		"prefix": "Entity.GetGameRulesProxy()",
-		"body": "Entity.GetGameRulesProxy()",
-		"description": "Returns entity index of game rules entity."
-	},
-	"IsBot":{
-		"prefix": "Entity.IsBot(entityIndex)",
-		"body": "Entity.IsBot()",
-		"description": "Returns true or false."
-	},
-	"GetWeapon":{
-		"prefix": "Entity.GetWeapon(entityIndex)",
-		"body": "Entity.GetWeapon()",
-		"description": "Returns player weapon name."
-	},
-	"SetProp":{
-		"prefix": "Entity.SetProp(entityIndex, tableName, propName, value)",
-		"body": "Entity.SetProp()",
-		"description": "Set value of property."
-	},
-	"GetProp":{
-		"prefix": "Entity.GetProp(entityIndex, tableName, propName)",
-		"body": "Entity.GetProp()",
-		"description": "Returns the value of the property."
-	},
-	"GetRenderOrigin":{
-		"prefix": "Entity.GetRenderOrigin(entityIndex)",
-		"body": "Entity.GetRenderOrigin()",
-		"description": "Returns an array of x, y, z."
-	},
-	"GetName":{
-		"prefix": "Entity.GetName(entityIndex)",
-		"body": "Entity.GetName()",
-		"description": "Returns a string that is the player name."
-	},
-	"GetClassName":{
-		"prefix": "Entity.GetClassName(entityIndex)",
-		"body": "Entity.GetClassName()",
-		"description": "Returns a string that represents the class name instead of the class ID."
-	},
-	"GetClassID":{
-		"prefix": "Entity.GetClassID(entityIndex)",
-		"body": "Entity.GetClassID()",
-		"description": "Returns the class ID."
-	},
-	"IsAlive":{
-		"prefix": "Entity.IsAlive(entityIndex)",
-		"body": "Entity.IsAlive()",
-		"description": "Finds out whether an entity is alive."
-	},
-	"IsValid":{
-		"prefix": "Entity.IsValid(entityIndex)",
-		"body": "Entity.IsValid()",
-		"description": "Finds out whether an entity is valid."
-	},
-	"IsEnemy":{
-		"prefix": "Entity.IsEnemy(entityIndex)",
-		"body": "Entity.IsEnemy()",
-		"description": "Finds out whether an entity is an enemy."
-	},
-	"IsTeammate":{
-		"prefix": "Entity.IsTeammate(entityIndex)",
-		"body": "Entity.IsTeammate()",
-		"description": "Finds out whether an entity is a teammate."
-	},
-	"GetEntityFromUserID":{
-		"prefix": "Entity.GetEntityFromUserID(userId)",
-		"body": "Entity.GetEntityFromUserID()",
-		"description": "Finds the entity of the given user id."
-	},
-	"GetLocalPlayer":{
-		"prefix": "Entity.GetLocalPlayer()",
-		"body": "Entity.GetLocalPlayer()",
-		"description": "Returns the entity index of local the player."
-	},
-	"GetTeammates":{
-		"prefix": "Entity.GetTeammates()",
-		"body": "Entity.GetTeammates()",
-		"description": "Returns an array of teammate entity indexes."
-	},
-	"GetEnemies":{
-		"prefix": "Entity.GetEnemies()",
-		"body": "Entity.GetEnemies()",
-		"description": "Returns an array of enemy entity indexes."
-	},
-	"GetPlayers":{
-		"prefix": "Entity.GetPlayers()",
-		"body": "Entity.GetPlayers()",
-		"description": "Returns an array of player entity indexes."
-	},
-	"GetEntities":{
-		"prefix": "Entity.GetEntities()",
-		"body": "Entity.GetEntities()",
-		"description": "Returns an array of entity indexes."
-	},
-	//Render
-	"FilledCircle":{
-		"prefix": "Render.FilledCircle(x, y, r, color)",
-		"body": "Render.FilledCircle()",
-		"description": "Draws a filled circle with the given position, radius, and RGBA color."
-	},
-	"TexturedRect":{
-		"prefix": "Render.TexturedRect(x, y, width, height, texture)",
-		"body": "Render.TexturedRect()",
-		"description": "Draws a textured rectangle with the given position, size, and texture."
-	},
-	"AddTexture":{
-		"prefix": "Render.AddTexture(pathToTexture)",
-		"body": "Render.AddTexture()",
-		"description": "Adds a texture."
-	},
-	"TextSizeCustom":{
-		"prefix": "Render.TextSizeCustom(text, font)",
-		"body": "Render.TextSizeCustom()",
-		"description": "Finds the text width size of the given string with custom font."
-	},
-	"StringCustom":{
-		"prefix": "Render.StringCustom(x, y, align, text, color, font)",
-		"body": "Render.StringCustom()",
-		"description": "Used to draw string with custom font."
-	},
-	"FindFont":{
-		"prefix": "Render.FindFont(name, size, weight)",
-		"body": "Render.FindFont()",
-		"description": "Used to search for font identifier."
-	},
-	"AddFont":{
-		"prefix": "Render.AddFont(name, size, weight)",
-		"body": "Render.AddFont()",
-		"description": "Adds a custom font."
-	},
-	"Polygon":{
-		"prefix": "Render.Polygon([ [ x, y], [ x1, y1], [ x2, y2] ], color)",
-		"body": "Render.Polygon()",
-		"description": "Draws a polygon with shape based on arguments passed."
-	},
-	"GradientRect":{
-		"prefix": "Render.GradientRect(x, y, w, h, dir, color1, color2)",
-		"body": "Render.GradientRect()",
-		"description": "Draws a gradient rectangle with the given position, size, and RGBA color."
-	},
-	"TextSize":{
-		"prefix": "Render.TextSize(text, size)",
-		"body": "Render.TextSize()",
-		"description": "Finds the text width size of the given string."
-	},
-	"GetScreenSize":{
-		"prefix": "Render.GetScreenSize()",
-		"body": "Render.GetScreenSize()",
-		"description": "Returns width and height of your screen."
-	},
-	"WorldToScreen":{
-		"prefix": "Render.WorldToScreen([x, y, z])",
-		"body": "Render.WorldToScreen([  ])",
-		"description": "Finds the world position for the given screen position."
-	},
-	"Circle":{
-		"prefix": "Render.Circle(x, y, r, color)",
-		"body": "Render.Circle()",
-		"description": "Draws a circle with the given position, radius, and RGBA color."
-	},
-	"FilledRect":{
-		"prefix": "Render.FilledRect(x, y, width, height, color)",
-		"body": "Render.FilledRect()",
-		"description": "Draws a filled rectangle with the given position, size, and RGBA color."
-	},
-	"Rect":{
-		"prefix": "Render.Rect(x, y, width, height, color)",
-		"body": "Render.Rect()",
-		"description": "Draws a rectangle with the given position, size, and RGBA color."
-	},
-	"Line":{
-		"prefix": "Render.Line(x, y, x1, y1, color)",
-		"body": "Render.Line()",
-		"description": "Draws a line with the given position and RGBA color."
-	},
-	"String":{
-		"prefix": "Render.String(x, y, align, text, color, size)",
-		"body": "Render.String()",
-		"description": "Draws a string with the given position, align, RGBA color, and size."
-	},
-	//ConVar
-	"SetString":{
-		"prefix": "ConVar.SetString(cmd, string)",
-		"body": "ConVar.SetString()",
-		"description": "Sets the string value of the given console command."
-	},
-	"cvarGetString":{
-		"prefix": "ConVar.GetString(cmd)",
-		"body": "ConVar.GetString()",
-		"description": "Finds the string value of the given console command."
-	},
-	"SetFloat":{
-		"prefix": "ConVar.SetFloat(cmd, value)",
-		"body": "ConVar.SetFloat()",
-		"description": "Sets the float value of the given console command."
-	},
-	"GetFloat":{
-		"prefix": "ConVar.GetFloat(cmd)",
-		"body": "ConVar.GetFloat()",
-		"description": "Finds the float value of the given console command."
-	},
-	"SetInt":{
-		"prefix": "ConVar.SetInt(cmd, value)",
-		"body": "ConVar.SetInt()",
-		"description": "Sets the integer value of the given console command."
-	},
-	"GetInt":{
-		"prefix": "ConVar.GetInt(cmd)",
-		"body": "ConVar.GetInt()",
-		"description": "Finds the integer value of the given console command."
-	},
-	//Event
-	"eventGetString":{
-		"prefix": "Event.GetString(value)",
-		"body": "Event.GetString()",
-		"description": "Finds the string value of the given game event."
-	},
-	"eventGetFloat":{
-		"prefix": "Event.GetFloat(value)",
-		"body": "Event.GetFloat()",
-		"description": "Finds the float value of the given game event."
-	},
-	"eventGetInt":{
-		"prefix": "Event.eventGetInt(value)",
-		"body": "Event.eventGetInt()",
-		"description": "Finds the integer value of the given game event."
-	},
-	//Trace
-	"Smoke":{
-		"prefix": "Trace.Smoke(start, end)",
-		"body": "Trace.Smoke()",
-		"description": "Used to check if smoke is between two points."
-	},
-	"Bullet":{
-		"prefix": "Trace.Bullet(index, targetIndex, start, end)",
-		"body": "Trace.Bullet()",
-		"description": "Used to trace bullet between two entities."
-	},
-	"traceLine":{
-		"prefix": "Trace.Line(index, start, end)",
-		"body": "Trace.Line()",
-		"description": "Used to trace line between point A and B."
-	},
-	//UserCMD
-	"GetMovement":{
-		"prefix": "UserCMD.GetMovement()",
-		"body": "UserCMD.GetMovement()",
-		"description": "Used to obtain movement values."
-	},
-	"SetViewAngles":{
-		"prefix": "UserCMD.SetViewAngles([x, y, z], silent)",
-		"body": "UserCMD.SetViewAngles([  ], )",
-		"description": "Control user angles."
-	},
-	"Send":{
-		"prefix": "UserCMD.Send()",
-		"body": "UserCMD.Send()",
-		"description": "Used to send commands."
-	},
-	"Choke":{
-		"prefix": "UserCMD.Choke()",
-		"body": "UserCMD.Choke()",
-		"description": "Used to Choke commands."
-	},
-	"SetButtons":{
-		"prefix": "UserCMD.SetButtons(buttons)",
-		"body": "UserCMD.SetButtons()",
-		"description": "Used to set buttons."
-	},
-	"GetButtons":{
-		"prefix": "UserCMD.GetButtons()",
-		"body": "UserCMD.GetButtons()",
-		"description": "Used to get buttons."
-	},
-	"SetMovement":{
-		"prefix": "UserCMD.SetMovement([x, y, z])",
-		"body": "UserCMD.SetMovement([  ])",
-		"description": "Control user movement."
-	},
-	//Sound
-	"StopMicrophone":{
-		"prefix": "Sound.StopMicrophone()",
-		"body": "Sound.StopMicrophone()",
-		"description": "Used to stop Sound.PlayMicrophone"
-	},
-	"PlayMicrophone":{
-		"prefix": "Sound.PlayMicrophone(pathToSound)",
-		"body": "Sound.PlayMicrophone()",
-		"description": "Plays a sound on microphone."
-	},
-	"Play":{
-		"prefix": "Sound.Play(pathToSound)",
-		"body": "Sound.Play()",
-		"description": "Plays a sound."
-	},
-	//Local
-	"GetInaccuracy":{
-		"prefix": "Local.GetInaccuracy()",
-		"body": "Local.GetInaccuracy()",
-		"description": "Returns inaccuracy."
-	},
-	"GetSpread":{
-		"prefix": "Local.GetSpread()",
-		"body": "Local.GetSpread()",
-		"description": "Returns Spread."
-	},
-	"GetFakeYaw":{
-		"prefix": "Local.GetFakeYaw()",
-		"body": "Local.GetFakeYaw()",
-		"description": "Returns fake yaw angle."
-	},
-	"GetRealYaw":{
-		"prefix": "Local.GetRealYaw()",
-		"body": "Local.GetRealYaw()",
-		"description": "Returns real yaw angle."
-	},
-	"SetClanTag":{
-		"prefix": "Local.SetClanTag(tag)",
-		"body": "Local.SetClanTag()",
-		"description": "Used to set clan tag."
-	},
-	"localSetViewAngles":{
-		"prefix": "Local.SetViewAngles([p, y, r]])",
-		"body": "Local.SetViewAngles([  ]])",
-		"description": "Sets user-defined view angles."
-	},
-	"GetViewAngles":{
-		"prefix": "Local.GetViewAngles()",
-		"body": "Local.GetViewAngles()",
-		"description": "Returns array object with pitch, yaw and roll"
-	},
-	"Latency":{
-		"prefix": "Local.Latency()",
-		"body": "Local.Latency()",
-		"description": "Returns local player ping to the server."
-	},
-	//Cheat
-	"GetUsername":{
-		"prefix": "Cheat.GetUsername()",
-		"body": "Cheat.GetUsername()",
-		"description": "Returns forum username."
-	},
-	"PrintChat":{
-		"prefix": "Cheat.PrintChat(text)",
-		"body": "Cheat.PrintChat()",
-		"description": "Prints a message in in-game chat."
-	},
-	"RegisterCallback":{
-		"prefix": "Cheat.RegisterCallback(callback, function)",
-		"body": "Cheat.RegisterCallback()",
-		"description": "Registers a callback within a said function."
-	},
-	"ExecuteCommand":{
-		"prefix": "Cheat.ExecuteCommand(cmd)",
-		"body": "Cheat.ExecuteCommand()",
-		"description": "Executing commands in in-game console."
-	},
-	"PrintColor":{
-		"prefix": "Cheat.PrintColor(color, text)",
-		"body": "Cheat.PrintColor()",
-		"description": "Printing colored messages to the in-game console."
-	},
-	"Print":{
-		"prefix": "Cheat.Print(text)",
-		"body": "Cheat.Print()",
-		"description": "Printing messages to the in-game console."
-	},
-	//Input
-	"GetCursorPosition":{
-		"prefix": "Input.GetCursorPosition()",
-		"body": "Input.GetCursorPosition()",
-		"description": "Returns an array object with X, Y for cursor position."
-	},
-	"IsKeyPressed":{
-		"prefix": "Input.IsKeyPressed(virtualKeycode)",
-		"body": "Input.IsKeyPressed()",
-		"description": "Returns boolean value whether or not a key was pressed."
-	},
-	//World
-	"GetServerString":{
-		"prefix": "World.GetServerString()",
-		"body": "World.GetServerString()",
-		"description": "Returns server IP."
-	},
-	"GetMapName":{
-		"prefix": "World.GetMapName()",
-		"body": "World.GetMapName()",
-		"description": "Returns current map name."
-	},
-	//AntiAim
-	"SetLBYOffset":{
-		"prefix": "AntiAim.SetLBYOffset(degree)",
-		"body": "AntiAim.SetLBYOffset()",
-		"description": "Sets the LBY offset of your fake angle."
-	},
-	"SetRealOffset":{
-		"prefix": "AntiAim.SetRealOffset(degree)",
-		"body": "AntiAim.SetRealOffset()",
-		"description": "Sets the offset of your real angle."
-	},
-	"SetFakeOffset":{
-		"prefix": "AntiAim.SetFakeOffset(degree)",
-		"body": "AntiAim.SetFakeOffset()",
-		"description": "Sets the offset of your fake angle."
-	},
-	"GetOverride":{
-		"prefix": "AntiAim.GetOverride()",
-		"body": "AntiAim.GetOverride()",
-		"description": "Returns the anti-aim override state."
-	},
-	"SetOverride":{
-		"prefix": "AntiAim.SetOverride(value)",
-		"body": "AntiAim.SetOverride()",
-		"description": "Enables/disables anti-aim overriding."
-	},
-	//Exploit
-	"OverrideTolerance":{
-		"prefix": "Exploit.OverrideTolerance(value)",
-		"body": "Exploit.OverrideTolerance()",
-		"description": "Lower value results in faster double-tap."
-	},
-	"OverrideShift":{
-		"prefix": "Exploit.OverrideShift(value)",
-		"body": "Exploit.OverrideShift()",
-		"description": "Higher value results in faster double-tap."
-	},
-	"EnableRecharge":{
-		"prefix": "Exploit.EnableRecharge()",
-		"body": "Exploit.EnableRecharge()",
-		"description": "Enable automatic recharge"
-	},
-	"DisableRecharge":{
-		"prefix": "Exploit.DisableRecharge()",
-		"body": "Exploit.DisableRecharge()",
-		"description": "Disables automatic recharging"
-	},
-	"Recharge":{
-		"prefix": "Exploit.Recharge()",
-		"body": "Exploit.Recharge()",
-		"description": "Forces a recharge."
-	},
-	"GetCharge":{
-		"prefix": "Exploit.GetCharge()",
-		"body": "Exploit.GetCharge()",
-		"description": "Returns a fraction."
-	},
-	//Ragebot
-	"IgnoreTarget":{
-		"prefix": "Ragebot.IgnoreTarget(index)",
-		"body": "Ragebot.IgnoreTarget()",
-		"description": "Ignores a target for 1 tick"
-	},
-	"ForceHitboxSafety":{
-		"prefix": "Ragebot.ForceHitboxSafety(index)",
-		"body": "Ragebot.ForceHitboxSafety()",
-		"description": "Forces safety on a specific hitbox"
-	},
-	"ForceTargetMinimumDamge":{
-		"prefix": "Ragebot.ForceTargetMinimumDamge(index, value)",
-		"body": "Ragebot.ForceTargetMinimumDamge()",
-		"description": "Overrides minimum damage on a specific target"
-	},
-	"ForceTargetHitchance":{
-		"prefix": "Ragebot.ForceTargetHitchance(index, value)",
-		"body": "Ragebot.ForceTargetHitchance()",
-		"description": "Overrides hitchance on a specific target"
-	},
-	"ForceTargetSafety":{
-		"prefix": "Ragebot.ForceTargetSafety(index)",
-		"body": "Ragebot.ForceTargetSafety()",
-		"description": "Forces safety on a specific target."
-	},
-	"ForceTarget":{
-		"prefix": "Ragebot.ForceTarget(index)",
-		"body": "Ragebot.ForceTarget()",
-		"description": "Forces the rage-bot to target a specific entity."
-	},
-	"GetTarget":{
-		"prefix": "Ragebot.GetTarget()",
-		"body": "Ragebot.GetTarget()",
-		"description": "Used to get ragebot target."
-	},
-	//Material
-	"Refresh":{
-		"prefix": "Material.Refresh(materialIndex)",
-		"body": "Material.Refresh()",
-		"description": "Used to apply new set key values."
-	},
-	"SetKeyValue":{
-		"prefix": "Material.SetKeyValue(materialIndex, key, value)",
-		"body": "Material.SetKeyValue()",
-		"description": "Used to set key values."
-	},
-	"Get":{
-		"prefix": "Material.Get(name)",
-		"body": "Material.Get()",
-		"description": "Used to get material index."
-	},
-	"Destroy":{
-		"prefix": "Material.Destroy(name)",
-		"body": "Material.Destroy()",
-		"description": "Returns true if material was destroyed successfully."
-	},
-	"Create":{
-		"prefix": "Material.Create(name)",
-		"body": "Material.Create()",
-		"description": "Returns true if material was created successfully or false otherwise."
-	},
+    //Globals
+    "ChokedCommands":{
+        "prefix": "Globals.ChokedCommands()",
+        "body": "Globals.ChokedCommands()",
+        "description": "Returns amount of choked commands."
+    },
+    "Realtime":{
+        "prefix": "Globals.Realtime()",
+        "body": "Globals.Realtime()",
+        "description": "Returns time in seconds since CS:GO was started."
+    },
+    "FrameTime":{
+        "prefix": "Globals.FrameTime()",
+        "body": "Globals.FrameTime()",
+        "description": "Returns time in seconds since CS:GO was started."
+    },
+    "Curtime":{
+        "prefix": "Globals.Curtime()",
+        "body": "Globals.Curtime()",
+        "description": "Returns the game time in seconds."
+    },
+    "TickInterval":{
+        "prefix": "Globals",
+        "body": "Globals.TickInterval()",
+        "description": "Returns the time elapsed in one game tick in seconds."
+    },
+    "Tickrate":{
+        "prefix": "Globals.Tickrate()",
+        "body": "Globals.Tickrate()",
+        "description": "Returns server tick settings."
+    },
+    "Tickcount":{
+        "prefix": "Globals.Tickcount()",
+        "body": "Globals.Tickcount()",
+        "description": "Returns amount of ticks elapsed on the server."
+    },
+    "FrameStage":{
+        "prefix": "Globals.FrameStage()",
+        "body": "Globals.FrameStage()",
+        "description": "Returns an integer value of frame stage."
+    },
+    //UI
+    "AddLabel":{
+        "prefix": "UI.AddLabel(labelName)",
+        "body": "UI.AddLabel()",
+        "description": "Adds a text label."
+    },
+    "ToggleHotkey":{
+        "prefix": "UI.ToggleHotkey(hotkeyPath)",
+        "body": "UI.ToggleHotkey()",
+        "description": "Used to toggle hotkey."
+    },
+    "AddTextbox":{
+        "prefix": "UI.AddTextbox(textboxName)",
+        "body": "UI.AddTextbox()",
+        "description": "Adds a textbox."
+    },
+    "SetColor":{
+        "prefix": "UI.SetColor(colorPath)",
+        "body": "UI.SetColor()",
+        "description": "Set color of color picker."
+    },
+    "AddColorPicker":{
+        "prefix": "UI.AddColorPicker(colorPickerPath)",
+        "body": "UI.AddColorPicker()",
+        "description": "Adds a color picker."
+    },
+    "AddMultiDropdown":{
+        "prefix": "UI.AddMultiDropdown(dropdownName, items)",
+        "body": "UI.AddMultiDropdown()",
+        "description": "Adds a dropdown with ability to select more items."
+    },
+    "IsMenuOpen":{
+        "prefix": "UI.IsMenuOpen()",
+        "body": "UI.IsMenuOpen()",
+        "description": "Returns true if the menu is open, false otherwise."
+    },
+    "AddDropdown":{
+        "prefix": "UI.AddDropdown(dropdownName, items)",
+        "body": "UI.AddDropdown()",
+        "description": "Adds a dropdown."
+    },
+    "AddHotkey":{
+        "prefix": "UI.AddHotkey(hotkeyName)",
+        "body": "UI.AddHotkey()",
+        "description": "Adds a label with a key picker control."
+    },
+    "AddSliderFloat":{
+        "prefix": "UI.AddSliderFloat(sliderName, minValue, maxValue)",
+        "body": "UI.AddSliderFloat()",
+        "description": "Adds a floating-point slider."
+    },
+    "AddSliderInt":{
+        "prefix": "UI.AddSliderInt(sliderName, minValue, maxValue)",
+        "body": "UI.AddSliderInt()",
+        "description": "Adds an integer slider."
+    },
+    "AddCheckbox":{
+        "prefix": "UI.AddCheckbox(checkboxName)",
+        "body": "UI.AddCheckbox()",
+        "description": "Adds a checkbox control."
+    },
+    "IsHotkeyActive":{
+        "prefix": "UI.IsHotkeyActive(hotkeyPath)",
+        "body": "UI.IsHotkeyActive()",
+        "description": "Returns whether a key is currently active or not."
+    },
+    "GetColor":{
+        "prefix": "UI.GetColor(colorPath)",
+        "body": "UI.GetColor()",
+        "description": "Returns an array of color values from a control."
+    },
+    "GetString":{
+        "prefix": "UI.GetString(stringPath)",
+        "body": "UI.GetString()",
+        "description": "Returns a string representation of an item's current value."
+    },
+    "SetEnabled":{
+        "prefix": "UI.SetEnabled(itemPath, enabledValue)",
+        "body": "UI.SetEnabled()",
+        "description": "Changes menu item(s) visibility."
+    },
+    "SetValue":{
+        "prefix": "UI.SetValue(itemPath, value)",
+        "body": "UI.SetValue()",
+        "description": "Sets the value of an UI item's setting."
+    },
+    "GetValue":{
+        "prefix": "UI.GetValue(itemPath)",
+        "body": "UI.GetValue()",
+        "description": "Returns the value of UI item's setting."
+    },
+    //Entity
+    "GetRenderBox":{
+        "prefix": "Entity.GetRenderBox(entityIndex)",
+        "body": "Entity.GetRenderBox()",
+        "description": "Returns an array object with state (valid/invalid), min X, min Y, max X, max Y"
+    },
+    "GetWeapons":{
+        "prefix": "Entity.GetWeapons(entityIndex)",
+        "body": "Entity.GetWeapons()",
+        "description": "Returns an array of weapons of the entity."
+    },
+    "GetEntitiesByClassID":{
+        "prefix": "Entity.GetEntitiesByClassID(classId)",
+        "body": "Entity.GetEntitiesByClassID()",
+        "description": "Returns entities of given Class ID."
+    },
+    "GetHitboxPosition":{
+        "prefix": "Entity.GetHitboxPosition(entityIndex, hitboxIndex)",
+        "body": "Entity.GetHitboxPosition()",
+        "description": "Returns an array object with X, Y, Z for hitbox position."
+    },
+    "GetEyePosition":{
+        "prefix": "Entity.GetEyePosition(entityIndex)",
+        "body": "Entity.GetEyePosition()",
+        "description": "Returns an array object with X, Y, Z for eye position."
+    },
+    "GetGameRulesProxy":{
+        "prefix": "Entity.GetGameRulesProxy()",
+        "body": "Entity.GetGameRulesProxy()",
+        "description": "Returns entity index of game rules entity."
+    },
+    "IsBot":{
+        "prefix": "Entity.IsBot(entityIndex)",
+        "body": "Entity.IsBot()",
+        "description": "Returns true or false."
+    },
+    "GetWeapon":{
+        "prefix": "Entity.GetWeapon(entityIndex)",
+        "body": "Entity.GetWeapon()",
+        "description": "Returns player weapon name."
+    },
+    "SetProp":{
+        "prefix": "Entity.SetProp(entityIndex, tableName, propName, value)",
+        "body": "Entity.SetProp()",
+        "description": "Set value of property."
+    },
+    "GetProp":{
+        "prefix": "Entity.GetProp(entityIndex, tableName, propName)",
+        "body": "Entity.GetProp()",
+        "description": "Returns the value of the property."
+    },
+    "GetRenderOrigin":{
+        "prefix": "Entity.GetRenderOrigin(entityIndex)",
+        "body": "Entity.GetRenderOrigin()",
+        "description": "Returns an array of x, y, z."
+    },
+    "GetName":{
+        "prefix": "Entity.GetName(entityIndex)",
+        "body": "Entity.GetName()",
+        "description": "Returns a string that is the player name."
+    },
+    "GetClassName":{
+        "prefix": "Entity.GetClassName(entityIndex)",
+        "body": "Entity.GetClassName()",
+        "description": "Returns a string that represents the class name instead of the class ID."
+    },
+    "GetClassID":{
+        "prefix": "Entity.GetClassID(entityIndex)",
+        "body": "Entity.GetClassID()",
+        "description": "Returns the class ID."
+    },
+    "IsAlive":{
+        "prefix": "Entity.IsAlive(entityIndex)",
+        "body": "Entity.IsAlive()",
+        "description": "Finds out whether an entity is alive."
+    },
+    "IsValid":{
+        "prefix": "Entity.IsValid(entityIndex)",
+        "body": "Entity.IsValid()",
+        "description": "Finds out whether an entity is valid."
+    },
+    "IsEnemy":{
+        "prefix": "Entity.IsEnemy(entityIndex)",
+        "body": "Entity.IsEnemy()",
+        "description": "Finds out whether an entity is an enemy."
+    },
+    "IsTeammate":{
+        "prefix": "Entity.IsTeammate(entityIndex)",
+        "body": "Entity.IsTeammate()",
+        "description": "Finds out whether an entity is a teammate."
+    },
+    "GetEntityFromUserID":{
+        "prefix": "Entity.GetEntityFromUserID(userId)",
+        "body": "Entity.GetEntityFromUserID()",
+        "description": "Finds the entity of the given user id."
+    },
+    "GetLocalPlayer":{
+        "prefix": "Entity.GetLocalPlayer()",
+        "body": "Entity.GetLocalPlayer()",
+        "description": "Returns the entity index of local the player."
+    },
+    "GetTeammates":{
+        "prefix": "Entity.GetTeammates()",
+        "body": "Entity.GetTeammates()",
+        "description": "Returns an array of teammate entity indexes."
+    },
+    "GetEnemies":{
+        "prefix": "Entity.GetEnemies()",
+        "body": "Entity.GetEnemies()",
+        "description": "Returns an array of enemy entity indexes."
+    },
+    "GetPlayers":{
+        "prefix": "Entity.GetPlayers()",
+        "body": "Entity.GetPlayers()",
+        "description": "Returns an array of player entity indexes."
+    },
+    "GetEntities":{
+        "prefix": "Entity.GetEntities()",
+        "body": "Entity.GetEntities()",
+        "description": "Returns an array of entity indexes."
+    },
+    //Render
+    "FilledCircle":{
+        "prefix": "Render.FilledCircle(x, y, r, color)",
+        "body": "Render.FilledCircle()",
+        "description": "Draws a filled circle with the given position, radius, and RGBA color."
+    },
+    "TexturedRect":{
+        "prefix": "Render.TexturedRect(x, y, width, height, texture)",
+        "body": "Render.TexturedRect()",
+        "description": "Draws a textured rectangle with the given position, size, and texture."
+    },
+    "AddTexture":{
+        "prefix": "Render.AddTexture(pathToTexture)",
+        "body": "Render.AddTexture()",
+        "description": "Adds a texture."
+    },
+    "TextSizeCustom":{
+        "prefix": "Render.TextSizeCustom(text, font)",
+        "body": "Render.TextSizeCustom()",
+        "description": "Finds the text width size of the given string with custom font."
+    },
+    "StringCustom":{
+        "prefix": "Render.StringCustom(x, y, align, text, color, font)",
+        "body": "Render.StringCustom()",
+        "description": "Used to draw string with custom font."
+    },
+    "FindFont":{
+        "prefix": "Render.FindFont(name, size, weight)",
+        "body": "Render.FindFont()",
+        "description": "Used to search for font identifier."
+    },
+    "AddFont":{
+        "prefix": "Render.AddFont(name, size, weight)",
+        "body": "Render.AddFont()",
+        "description": "Adds a custom font."
+    },
+    "Polygon":{
+        "prefix": "Render.Polygon([ [ x, y], [ x1, y1], [ x2, y2] ], color)",
+        "body": "Render.Polygon()",
+        "description": "Draws a polygon with shape based on arguments passed."
+    },
+    "GradientRect":{
+        "prefix": "Render.GradientRect(x, y, w, h, dir, color1, color2)",
+        "body": "Render.GradientRect()",
+        "description": "Draws a gradient rectangle with the given position, size, and RGBA color."
+    },
+    "TextSize":{
+        "prefix": "Render.TextSize(text, size)",
+        "body": "Render.TextSize()",
+        "description": "Finds the text width size of the given string."
+    },
+    "GetScreenSize":{
+        "prefix": "Render.GetScreenSize()",
+        "body": "Render.GetScreenSize()",
+        "description": "Returns width and height of your screen."
+    },
+    "WorldToScreen":{
+        "prefix": "Render.WorldToScreen([x, y, z])",
+        "body": "Render.WorldToScreen([  ])",
+        "description": "Finds the world position for the given screen position."
+    },
+    "Circle":{
+        "prefix": "Render.Circle(x, y, r, color)",
+        "body": "Render.Circle()",
+        "description": "Draws a circle with the given position, radius, and RGBA color."
+    },
+    "FilledRect":{
+        "prefix": "Render.FilledRect(x, y, width, height, color)",
+        "body": "Render.FilledRect()",
+        "description": "Draws a filled rectangle with the given position, size, and RGBA color."
+    },
+    "Rect":{
+        "prefix": "Render.Rect(x, y, width, height, color)",
+        "body": "Render.Rect()",
+        "description": "Draws a rectangle with the given position, size, and RGBA color."
+    },
+    "Line":{
+        "prefix": "Render.Line(x, y, x1, y1, color)",
+        "body": "Render.Line()",
+        "description": "Draws a line with the given position and RGBA color."
+    },
+    "String":{
+        "prefix": "Render.String(x, y, align, text, color, size)",
+        "body": "Render.String()",
+        "description": "Draws a string with the given position, align, RGBA color, and size."
+    },
+    //ConVar
+    "SetString":{
+        "prefix": "ConVar.SetString(cmd, string)",
+        "body": "ConVar.SetString()",
+        "description": "Sets the string value of the given console command."
+    },
+    "cvarGetString":{
+        "prefix": "ConVar.GetString(cmd)",
+        "body": "ConVar.GetString()",
+        "description": "Finds the string value of the given console command."
+    },
+    "SetFloat":{
+        "prefix": "ConVar.SetFloat(cmd, value)",
+        "body": "ConVar.SetFloat()",
+        "description": "Sets the float value of the given console command."
+    },
+    "GetFloat":{
+        "prefix": "ConVar.GetFloat(cmd)",
+        "body": "ConVar.GetFloat()",
+        "description": "Finds the float value of the given console command."
+    },
+    "SetInt":{
+        "prefix": "ConVar.SetInt(cmd, value)",
+        "body": "ConVar.SetInt()",
+        "description": "Sets the integer value of the given console command."
+    },
+    "GetInt":{
+        "prefix": "ConVar.GetInt(cmd)",
+        "body": "ConVar.GetInt()",
+        "description": "Finds the integer value of the given console command."
+    },
+    //Event
+    "eventGetString":{
+        "prefix": "Event.GetString(value)",
+        "body": "Event.GetString()",
+        "description": "Finds the string value of the given game event."
+    },
+    "eventGetFloat":{
+        "prefix": "Event.GetFloat(value)",
+        "body": "Event.GetFloat()",
+        "description": "Finds the float value of the given game event."
+    },
+    "eventGetInt":{
+        "prefix": "Event.eventGetInt(value)",
+        "body": "Event.eventGetInt()",
+        "description": "Finds the integer value of the given game event."
+    },
+    //Trace
+    "Smoke":{
+        "prefix": "Trace.Smoke(start, end)",
+        "body": "Trace.Smoke()",
+        "description": "Used to check if smoke is between two points."
+    },
+    "Bullet":{
+        "prefix": "Trace.Bullet(index, targetIndex, start, end)",
+        "body": "Trace.Bullet()",
+        "description": "Used to trace bullet between two entities."
+    },
+    "traceLine":{
+        "prefix": "Trace.Line(index, start, end)",
+        "body": "Trace.Line()",
+        "description": "Used to trace line between point A and B."
+    },
+    "RawLine":{
+        "prefix": "Trace.RawLine( int skip_index, vec3 start, vec3 end, unsigned int mask, int type )",
+        "body": "Trace.RawLine()",
+        "description": "Used for advanced line tracing."
+    },
 
+    //UserCMD
+    "GetMovement":{
+        "prefix": "UserCMD.GetMovement()",
+        "body": "UserCMD.GetMovement()",
+        "description": "Used to obtain movement values."
+    },
+    "SetViewAngles":{
+        "prefix": "UserCMD.SetViewAngles([x, y, z], silent)",
+        "body": "UserCMD.SetViewAngles([  ], )",
+        "description": "Control user angles."
+    },
+    "Send":{
+        "prefix": "UserCMD.Send()",
+        "body": "UserCMD.Send()",
+        "description": "Used to send commands."
+    },
+    "Choke":{
+        "prefix": "UserCMD.Choke()",
+        "body": "UserCMD.Choke()",
+        "description": "Used to Choke commands."
+    },
+    "SetButtons":{
+        "prefix": "UserCMD.SetButtons(buttons)",
+        "body": "UserCMD.SetButtons()",
+        "description": "Used to set buttons."
+    },
+    "GetButtons":{
+        "prefix": "UserCMD.GetButtons()",
+        "body": "UserCMD.GetButtons()",
+        "description": "Used to get buttons."
+    },
+    "SetMovement":{
+        "prefix": "UserCMD.SetMovement([x, y, z])",
+        "body": "UserCMD.SetMovement([  ])",
+        "description": "Control user movement."
+    },
+    //Sound
+    "StopMicrophone":{
+        "prefix": "Sound.StopMicrophone()",
+        "body": "Sound.StopMicrophone()",
+        "description": "Used to stop Sound.PlayMicrophone"
+    },
+    "PlayMicrophone":{
+        "prefix": "Sound.PlayMicrophone(pathToSound)",
+        "body": "Sound.PlayMicrophone()",
+        "description": "Plays a sound on microphone."
+    },
+    "Play":{
+        "prefix": "Sound.Play(pathToSound)",
+        "body": "Sound.Play()",
+        "description": "Plays a sound."
+    },
+    //Local
+    "GetInaccuracy":{
+        "prefix": "Local.GetInaccuracy()",
+        "body": "Local.GetInaccuracy()",
+        "description": "Returns inaccuracy."
+    },
+    "GetSpread":{
+        "prefix": "Local.GetSpread()",
+        "body": "Local.GetSpread()",
+        "description": "Returns Spread."
+    },
+    "GetFakeYaw":{
+        "prefix": "Local.GetFakeYaw()",
+        "body": "Local.GetFakeYaw()",
+        "description": "Returns fake yaw angle."
+    },
+    "GetRealYaw":{
+        "prefix": "Local.GetRealYaw()",
+        "body": "Local.GetRealYaw()",
+        "description": "Returns real yaw angle."
+    },
+    "SetClanTag":{
+        "prefix": "Local.SetClanTag(tag)",
+        "body": "Local.SetClanTag()",
+        "description": "Used to set clan tag."
+    },
+    "localSetViewAngles":{
+        "prefix": "Local.SetViewAngles([p, y, r]])",
+        "body": "Local.SetViewAngles([  ]])",
+        "description": "Sets user-defined view angles."
+    },
+    "GetViewAngles":{
+        "prefix": "Local.GetViewAngles()",
+        "body": "Local.GetViewAngles()",
+        "description": "Returns array object with pitch, yaw and roll"
+    },
+    "Latency":{
+        "prefix": "Local.Latency()",
+        "body": "Local.Latency()",
+        "description": "Returns local player ping to the server."
+    },
+    //Cheat
+    "GetUsername":{
+        "prefix": "Cheat.GetUsername()",
+        "body": "Cheat.GetUsername()",
+        "description": "Returns forum username."
+    },
+    "PrintChat":{
+        "prefix": "Cheat.PrintChat(text)",
+        "body": "Cheat.PrintChat()",
+        "description": "Prints a message in in-game chat."
+    },
+    "RegisterCallback":{
+        "prefix": "Cheat.RegisterCallback(callback, function)",
+        "body": "Cheat.RegisterCallback()",
+        "description": "Registers a callback within a said function."
+    },
+    "ExecuteCommand":{
+        "prefix": "Cheat.ExecuteCommand(cmd)",
+        "body": "Cheat.ExecuteCommand()",
+        "description": "Executing commands in in-game console."
+    },
+    "PrintColor":{
+        "prefix": "Cheat.PrintColor(color, text)",
+        "body": "Cheat.PrintColor()",
+        "description": "Printing colored messages to the in-game console."
+    },
+    "Print":{
+        "prefix": "Cheat.Print(text)",
+        "body": "Cheat.Print()",
+        "description": "Printing messages to the in-game console."
+    },
+    //Input
+    "GetCursorPosition":{
+        "prefix": "Input.GetCursorPosition()",
+        "body": "Input.GetCursorPosition()",
+        "description": "Returns an array object with X, Y for cursor position."
+    },
+    "IsKeyPressed":{
+        "prefix": "Input.IsKeyPressed(virtualKeycode)",
+        "body": "Input.IsKeyPressed()",
+        "description": "Returns boolean value whether or not a key was pressed."
+    },
+    //World
+    "GetServerString":{
+        "prefix": "World.GetServerString()",
+        "body": "World.GetServerString()",
+        "description": "Returns server IP."
+    },
+    "GetMapName":{
+        "prefix": "World.GetMapName()",
+        "body": "World.GetMapName()",
+        "description": "Returns current map name."
+    },
+    //AntiAim
+    "SetLBYOffset":{
+        "prefix": "AntiAim.SetLBYOffset(degree)",
+        "body": "AntiAim.SetLBYOffset()",
+        "description": "Sets the LBY offset of your fake angle."
+    },
+    "SetRealOffset":{
+        "prefix": "AntiAim.SetRealOffset(degree)",
+        "body": "AntiAim.SetRealOffset()",
+        "description": "Sets the offset of your real angle."
+    },
+    "SetFakeOffset":{
+        "prefix": "AntiAim.SetFakeOffset(degree)",
+        "body": "AntiAim.SetFakeOffset()",
+        "description": "Sets the offset of your fake angle."
+    },
+    "GetOverride":{
+        "prefix": "AntiAim.GetOverride()",
+        "body": "AntiAim.GetOverride()",
+        "description": "Returns the anti-aim override state."
+    },
+    "SetOverride":{
+        "prefix": "AntiAim.SetOverride(value)",
+        "body": "AntiAim.SetOverride()",
+        "description": "Enables/disables anti-aim overriding."
+    },
+    //Exploit
+    "OverrideTolerance":{
+        "prefix": "Exploit.OverrideTolerance(value)",
+        "body": "Exploit.OverrideTolerance()",
+        "description": "Lower value results in faster double-tap."
+    },
+    "OverrideShift":{
+        "prefix": "Exploit.OverrideShift(value)",
+        "body": "Exploit.OverrideShift()",
+        "description": "Higher value results in faster double-tap."
+    },
+    "EnableRecharge":{
+        "prefix": "Exploit.EnableRecharge()",
+        "body": "Exploit.EnableRecharge()",
+        "description": "Enable automatic recharge"
+    },
+    "DisableRecharge":{
+        "prefix": "Exploit.DisableRecharge()",
+        "body": "Exploit.DisableRecharge()",
+        "description": "Disables automatic recharging"
+    },
+    "Recharge":{
+        "prefix": "Exploit.Recharge()",
+        "body": "Exploit.Recharge()",
+        "description": "Forces a recharge."
+    },
+    "GetCharge":{
+        "prefix": "Exploit.GetCharge()",
+        "body": "Exploit.GetCharge()",
+        "description": "Returns a fraction."
+    },
+    //Ragebot
+    "IgnoreTarget":{
+        "prefix": "Ragebot.IgnoreTarget(index)",
+        "body": "Ragebot.IgnoreTarget()",
+        "description": "Ignores a target for 1 tick"
+    },
+    "ForceHitboxSafety":{
+        "prefix": "Ragebot.ForceHitboxSafety(index)",
+        "body": "Ragebot.ForceHitboxSafety()",
+        "description": "Forces safety on a specific hitbox"
+    },
+    "ForceTargetMinimumDamge":{
+        "prefix": "Ragebot.ForceTargetMinimumDamge(index, value)",
+        "body": "Ragebot.ForceTargetMinimumDamge()",
+        "description": "Overrides minimum damage on a specific target"
+    },
+    "ForceTargetHitchance":{
+        "prefix": "Ragebot.ForceTargetHitchance(index, value)",
+        "body": "Ragebot.ForceTargetHitchance()",
+        "description": "Overrides hitchance on a specific target"
+    },
+    "ForceTargetSafety":{
+        "prefix": "Ragebot.ForceTargetSafety(index)",
+        "body": "Ragebot.ForceTargetSafety()",
+        "description": "Forces safety on a specific target."
+    },
+    "ForceTarget":{
+        "prefix": "Ragebot.ForceTarget(index)",
+        "body": "Ragebot.ForceTarget()",
+        "description": "Forces the rage-bot to target a specific entity."
+    },
+    "GetTarget":{
+        "prefix": "Ragebot.GetTarget()",
+        "body": "Ragebot.GetTarget()",
+        "description": "Used to get ragebot target."
+    },
+    //Material
+    "Refresh":{
+        "prefix": "Material.Refresh(materialIndex)",
+        "body": "Material.Refresh()",
+        "description": "Used to apply new set key values."
+    },
+    "SetKeyValue":{
+        "prefix": "Material.SetKeyValue(materialIndex, key, value)",
+        "body": "Material.SetKeyValue()",
+        "description": "Used to set key values."
+    },
+    "Get":{
+        "prefix": "Material.Get(name)",
+        "body": "Material.Get()",
+        "description": "Used to get material index."
+    },
+    "Destroy":{
+        "prefix": "Material.Destroy(name)",
+        "body": "Material.Destroy()",
+        "description": "Returns true if material was destroyed successfully."
+    },
+    "Create":{
+        "prefix": "Material.Create(name)",
+        "body": "Material.Create()",
+        "description": "Returns true if material was created successfully or false otherwise."
+    },
+ 
 }
+
