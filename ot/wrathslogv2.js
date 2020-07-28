@@ -1,5 +1,170 @@
-var library = require("commonmodule.module");
+var binlib = {};
+function dictLength(dict) {
+    var count = 0;
+    for (_ in dict) {
+        count++;
+    }
+    return count;
+}
+function createDropdown(name, values, multi) {
+    UI[multi ? "AddMultiDropdown" : "AddDropdown"](name, values);
 
+    binlib[name] = { "multi": multi, "values": {} };
+
+    multi && values.reverse();
+
+    var i = 0; for (value in values) {
+        var index = multi ? (1 << (values.length - (i + 1))) : i;
+        binlib[name].values[index] = values[value];
+        i++;
+    }
+}
+function fetchDropdown(name) {
+    var selection = (name ? [] : {})
+    var bin = UI.GetValue("Misc", name);
+
+    !name && function () { for (dropdown in binlib) selection[dropdown] = fetchDropdown(dropdown) }();
+
+    if (name) {
+        !binlib[name].multi && bin == 0 && selection.push(binlib[name].values[0]) && function () { return selection; }();
+        for (var i = dictLength(binlib[name].values) - 1; i >= 0; i--) {
+            if (!binlib[name].multi && i == 0) continue;
+
+            var index = binlib[name].multi ? (1 << i) : i;
+            if (bin - index >= 0) {
+                bin -= (index);
+                selection.push(binlib[name].values[index]);
+            }
+        }
+    }
+
+    return selection;
+}
+function returnHitbox(index) {
+    var hitboxName = "";
+    switch (index) {
+        case 0:
+            hitboxName = "Head";
+            break;
+        case 1:
+            hitboxName = "Neck";
+            break;
+        case 2:
+            hitboxName = "Pelvis";
+            break;
+        case 3:
+            hitboxName = "Body";
+            break;
+        case 4:
+            hitboxName = "Thorax";
+            break;
+        case 5:
+            hitboxName = "Chest";
+            break;
+        case 6:
+            hitboxName = "Upper chest";
+            break;
+        case 7:
+            hitboxName = "Left thigh";
+            break;
+        case 8:
+            hitboxName = "Right thigh";
+            break;
+        case 9:
+            hitboxName = "Left calf";
+            break;
+        case 10:
+            hitboxName = "Right calf";
+            break;
+        case 11:
+            hitboxName = "Left foot";
+            break;
+        case 12:
+            hitboxName = "Right foot";
+            break;
+        case 13:
+            hitboxName = "Left hand";
+            break;
+        case 14:
+            hitboxName = "Right hand";
+            break;
+        case 15:
+            hitboxName = "Left upper arm";
+            break;
+        case 16:
+            hitboxName = "Left forearm";
+            break;
+        case 17:
+            hitboxName = "Right upper arm";
+            break;
+        case 18:
+            hitboxName = "Right forearm";
+            break;
+        default:
+            hitboxName = "Generic";
+    }
+    return hitboxName;
+}
+function returnHitgroup(index) {
+    var hitgroupName = "";
+    switch (index) {
+        case 0:
+            hitgroupName = "Generic";
+            break;
+        case 1:
+            hitgroupName = "Head";
+            break;
+        case 2:
+            hitgroupName = "Chest";
+            break;
+        case 3:
+            hitgroupName = "Stomach";
+            break;
+        case 4:
+            hitgroupName = "Left Arm";
+            break;
+        case 5:
+            hitgroupName = "Right Arm";
+            break;
+        case 6:
+            hitgroupName = "Left Leg";
+            break;
+        case 7:
+            hitgroupName = "Right Leg";
+            break;
+        default:
+            hitgroupName = "unknown"
+            break;
+    }
+    return hitgroupName;
+}
+function returnExploit(index) {
+    var returnVal;
+    if (index == 0) {
+        returnVal = "False";
+    }
+    else if (index == 1) {
+        returnVal = "HS";
+    }
+    else {
+        returnVal = "DT";
+    }
+    return returnVal;
+}
+function returnSafepoint(index) {
+    var returnVal = "";
+    if (index == 1) {
+        returnVal = "Yes";
+    }
+    else {
+        returnVal = "No";
+    }
+    return returnVal;
+}
+function getVelocity(index) {
+    var vel = Entity.GetProp(index, "CBasePlayer", "m_vecVelocity[0]");
+    return Math.sqrt(Math.pow(vel[0], 2) + Math.pow(vel[1], 2));
+}
 
 function Log(pContent, pColor) {
     this.content = pContent;
@@ -58,7 +223,7 @@ var palette = [
 function RagebotLog() {
 
     var rBotColor;
-    var cType = library.fetchDropdown("Color theme");
+    var cType = fetchDropdown("Color theme");
     if (cType.indexOf("None") != -1) {
         rBotColor = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Ragebot log color");
     }
@@ -69,11 +234,11 @@ function RagebotLog() {
     var targetName = Entity.GetName(Event.GetInt("target_index"));
     var targetEyePos = Entity.GetProp(Event.GetInt("target_index"), "CCSPlayer", "m_angEyeAngles");
 
-    var optionsSelected = library.fetchDropdown("Ragebot log options");
+    var optionsSelected = fetchDropdown("Ragebot log options");
 
-    var nakedLog = "Shot at " + targetName.replace(/^\s+|\s+$/g, '') + "'s " + library.returnHitbox(Event.GetInt("hitbox"));
+    var nakedLog = "Shot at " + targetName.replace(/^\s+|\s+$/g, '') + "'s " + returnHitbox(Event.GetInt("hitbox"));
     if (optionsSelected.indexOf("Add velocity") != -1) {
-        nakedLog += " | (Pvel: " + Math.floor(library.getVelocity(Entity.GetLocalPlayer())) + " Tvel: " + Math.floor(library.getVelocity(Event.GetInt("target_index"))) + ")";
+        nakedLog += " | (Pvel: " + Math.floor(getVelocity(Entity.GetLocalPlayer())) + " Tvel: " + Math.floor(getVelocity(Event.GetInt("target_index"))) + ")";
     }
     if (optionsSelected.indexOf("Add viewangles") != -1) {
         nakedLog += " | Viewangles(" + Math.floor(targetEyePos[0]) + "," + Math.floor(targetEyePos[1]) + "," + Math.floor(targetEyePos[2]) + ")";
@@ -82,10 +247,13 @@ function RagebotLog() {
         nakedLog += " | HC: " + Event.GetInt("hitchance");
     }
     if (optionsSelected.indexOf("Add safe point") != -1) {
-        nakedLog += " | SP: " + library.returnSafepoint(Event.GetInt("safepoint"));
+        nakedLog += " | SP: " + returnSafepoint(Event.GetInt("safepoint"));
     }
     if (optionsSelected.indexOf("Add exploit") != -1) {
-        nakedLog += " | Exploit: " + library.returnExploit(Event.GetInt("exploit"));
+        nakedLog += " | Exploit: " + returnExploit(Event.GetInt("exploit"));
+    }
+    if (optionsSelected.indexOf("Add exploit info") != -1) {
+        nakedLog += " | C: " + Globals.ChokedCommands() + " / " + Exploit.GetCharge().toFixed(2)
     }
     var log = new Log(nakedLog, rBotColor)
     Cheat.PrintColor(log.color, log.content + "\n");
@@ -95,7 +263,7 @@ function RagebotLog() {
 
     if (UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Draw logs on screen")) {
         logs.push(log)
-        
+
         if (!cType.indexOf("None") != -1) {
             inPaletteIndex++
             if (palette[paletteIndex][inPaletteIndex] == "MAX") {
@@ -107,13 +275,13 @@ function RagebotLog() {
 }
 function DamageTakenLog() {
     var dTakenColor;
-    var dLog = library.fetchDropdown("Damage log types");
+    var dLog = fetchDropdown("Other log types");
     if (dLog.indexOf("Damage taken") == -1) {
         return;
     }
 
 
-    var cType = library.fetchDropdown("Color theme");
+    var cType = fetchDropdown("Color theme");
     if (cType.indexOf("None") != -1) {
         dTakenColor = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Damage taken log color");
     }
@@ -126,15 +294,14 @@ function DamageTakenLog() {
     if (Entity.GetEntityFromUserID(Event.GetInt("userid")) == Entity.GetLocalPlayer()) {
 
         var damageLog = Entity.GetName(Entity.GetEntityFromUserID(Event.GetInt("attacker"))).replace(/^\s+|\s+$/g, '') + " hit you in the " +
-            library.returnHitgroup(Event.GetInt("hitgroup")) + " for " + Event.GetInt("dmg_health") + " (" + Event.GetInt("health") + " health remaining)";
-
+            returnHitgroup(Event.GetInt("hitgroup")) + " for " + Event.GetInt("dmg_health") + " (" + Event.GetInt("health") + " health remaining)";
         var log = new Log(damageLog, dTakenColor)
 
         Cheat.PrintColor(log.color, log.content + "\n");
 
         if (UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Draw logs on screen")) {
             logs.push(log)
-            
+
             if (!cType.indexOf("None") != -1) {
                 inPaletteIndex++
                 if (palette[paletteIndex][inPaletteIndex] == "MAX") {
@@ -146,13 +313,13 @@ function DamageTakenLog() {
     }
 }
 function DamageGivenLog() {
-    var dLog = library.fetchDropdown("Damage log types");
+    var dLog = fetchDropdown("Other log types");
     if (dLog.indexOf("Damage given") == -1) {
         return;
     }
     var dGivenColor;
 
-    var cType = library.fetchDropdown("Color theme");
+    var cType = fetchDropdown("Color theme");
     if (cType.indexOf("None") != -1) {
         dGivenColor = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Damage given log color");
     }
@@ -163,7 +330,7 @@ function DamageGivenLog() {
 
     if (Entity.GetEntityFromUserID(Event.GetInt("attacker")) == Entity.GetLocalPlayer()) {
         var hitLog = "You hit " + Entity.GetName(Entity.GetEntityFromUserID(Event.GetInt("userid"))).replace(/^\s+|\s+$/g, '') + " in the " +
-            library.returnHitgroup(Event.GetInt("hitgroup")) + " for " + Event.GetInt("dmg_health") + " (" + Event.GetInt("health") + " health remaining)";
+            returnHitgroup(Event.GetInt("hitgroup")) + " for " + Event.GetInt("dmg_health") + " (" + Event.GetInt("health") + " health remaining)";
 
         var log = new Log(hitLog, dGivenColor);
 
@@ -208,7 +375,7 @@ function DrawLogs() {
     }
 }
 function handleColor() {
-    var cType = library.fetchDropdown("Color theme");
+    var cType = fetchDropdown("Color theme");
     if (!cType.indexOf("None") != -1) {
         if (cType.indexOf("estrogen") != -1) {
             paletteIndex = 0;
@@ -226,13 +393,13 @@ function handleColor() {
 
 }
 function main() {
+    UI.AddLabel("--- Ragebot logs ---");
+    createDropdown("Ragebot log options", ["Add velocity", "Add viewangles", "Add hitchance", "Add safe point", "Add exploit", "Add exploit info"], true);
 
-    library.createDropdown("Ragebot log options", ["Add velocity", "Add viewangles", "Add hitchance", "Add safe point", "Add exploit"], true);
-
-    library.createDropdown("Damage log types", ["Damage taken", "Damage given"], true);
+    createDropdown("Other log types", ["Damage taken", "Damage given"], true);
 
     //Add the palettes here in the list
-    library.createDropdown("Color theme", ["None", "estrogen", "rainbow", "vaporwave", "cyberpunk"], false);
+    createDropdown("Color theme", ["None", "estrogen", "rainbow", "vaporwave", "cyberpunk"], false);
 
 
     UI.AddColorPicker("Ragebot log color");
@@ -240,6 +407,8 @@ function main() {
     UI.AddColorPicker("Damage given log color");
     UI.AddCheckbox("Draw logs on screen")
     UI.AddSliderInt("Max logs", 1, 20);
+    UI.AddLabel("--- --- ---");
+
 
     Cheat.RegisterCallback("ragebot_fire", "RagebotLog");
     Cheat.RegisterCallback("player_hurt", "DamageTakenLog");
