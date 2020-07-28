@@ -352,9 +352,11 @@ function DamageGivenLog() {
 var fLoaded = false;
 var logs = [];
 function DrawLogs() {
+    var ss = Render.GetScreenSize()
     if (!fLoaded) {
         //CHANGE THE FONT HERE!!!!!!!!!
         font = Render.AddFont("tahoma", 9, 400);
+        font2 = Render.AddFont("tahoma", 8, 400);
         fLoaded = true;
     }
     var maxLogs = UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Max logs")
@@ -364,8 +366,15 @@ function DrawLogs() {
             logs.shift();
         }
         if (!logs.length == 0) {
-            for (i = 0; i < logs.length; i++) {
-                Render.StringCustom(5, i * 13, 0, logs[i].content, logs[i].color, font);
+            if (UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Mode 2")) {
+                for (i = 0; i < logs.length; i++) {
+                    Render.StringCustom(ss[0] / 2 + 3, ss[1] / 2 + 3 + i * 13, 0, logs[i].content, logs[i].color, font2);
+                }
+            }
+            else {
+                for (i = 0; i < logs.length; i++) {
+                    Render.StringCustom(5, i * 13, 0, logs[i].content, logs[i].color, font);
+                }
             }
             logs[0].color[3] -= 1;
             if (logs[0].color[3] <= 0) {
@@ -406,6 +415,7 @@ function main() {
     UI.AddColorPicker("Damage taken log color");
     UI.AddColorPicker("Damage given log color");
     UI.AddCheckbox("Draw logs on screen")
+    UI.AddCheckbox("Mode 2")
     UI.AddSliderInt("Max logs", 1, 20);
     UI.AddLabel("--- --- ---");
 
