@@ -58,8 +58,14 @@ function onDraw() {
         }
     }
 }
+function onDeath(){
+    if(Entity.GetLocalPlayer() == Entity.GetEntityFromUserID(Event.GetInt("userid"))){
+        traceCOntainer = [];
+    }
+}
 UI.AddColorPicker("Tracer color")
 UI.AddSliderInt("Ticks tracer lasts", 1, 640)
 UI.AddSliderInt("Max tracers", 1, 50)
+Cheat.RegisterCallback("player_death", "onDeath")
 Cheat.RegisterCallback("Draw", "onDraw")
 Cheat.RegisterCallback("bullet_impact", "onBulletImpact")
