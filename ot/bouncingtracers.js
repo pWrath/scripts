@@ -18,6 +18,9 @@ function onBulletImpact() {
     }
 }
 function onDraw() {
+    if(!Entity.IsAlive(Entity.GetLocalPlayer())){
+        return "GET THE FUCK OUT OF THE FUNCTION U DOG"
+    }
     var t = UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Ticks tracer lasts")
     var col = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Tracer color")
     for (i in traceContainer) {
