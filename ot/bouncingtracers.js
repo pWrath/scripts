@@ -1,3 +1,4 @@
+
 var traceContainer = [];
 function tracer(eyepos, hitpos, time) {
     this.eyepos = eyepos
@@ -18,8 +19,9 @@ function onBulletImpact() {
     }
 }
 function onDraw() {
-    if(!Entity.IsAlive(Entity.GetLocalPlayer())){
-        return "GET THE FUCK OUT OF THE FUNCTION U DOG"
+    if(Entity.IsAlive(Entity.GetLocalPlayer()) == false){
+        traceContainer = [];
+        return
     }
     var t = UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Ticks tracer lasts")
     var col = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Tracer color")
@@ -63,7 +65,7 @@ function onDraw() {
 }
 function onDeath(){
     if(Entity.GetLocalPlayer() == Entity.GetEntityFromUserID(Event.GetInt("userid"))){
-        traceCOntainer = [];
+        traceContainer = [];
     }
 }
 UI.AddColorPicker("Tracer color")
