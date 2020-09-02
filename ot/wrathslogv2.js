@@ -376,10 +376,12 @@ function MissLog(){
             Cheat.PrintColor(log.color, log.content + "\n");
             shottick = 0;
             hit = false;
+            shot = false;
         }
         else if(Globals.Tickcount() == shottick + 1 && hit == true){
             hit = false;
             shottick = 0;
+            shot = false;
         }
     }
 }
