@@ -220,7 +220,16 @@ var palette = [
 
 ];
 
+var shot = false;
+var shottick = 0;
+var hit = false;
 function RagebotLog() {
+
+
+    shot = true;
+    shottick = Globals.Tickcount();
+
+
 
     var rBotColor;
     var cType = fetchDropdown("Color theme");
@@ -328,8 +337,9 @@ function DamageGivenLog() {
 
     }
 
-    if (Entity.GetEntityFromUserID(Event.GetInt("attacker")) == Entity.GetLocalPlayer()) {
-        var hitLog = "You hit " + Entity.GetName(Entity.GetEntityFromUserID(Event.GetInt("userid"))).replace(/^\s+|\s+$/g, '') + " in the " +
+    if (Entity.GetEntityFromUserID(Event.GetInt("attacker")) == Entity.GetLocalPlayer()) { 
+        hit = true;
+        var hitLog = "Shot hit " + Entity.GetName(Entity.GetEntityFromUserID(Event.GetInt("userid"))).replace(/^\s+|\s+$/g, '') + " in the " +
             returnHitgroup(Event.GetInt("hitgroup")) + " for " + Event.GetInt("dmg_health") + " (" + Event.GetInt("health") + " health remaining)";
 
         var log = new Log(hitLog, dGivenColor);
@@ -347,6 +357,30 @@ function DamageGivenLog() {
             }
         }
 
+    }
+}
+function MissLog(){
+    var mLog = fetchDropdown("Other log types");
+    if (mLog.indexOf("Miss log") == -1) {
+        return;
+    }
+    var missColor;
+    var cType = fetchDropdown("Color theme");
+    if (cType.indexOf("None") != -1) {
+        missColor = UI.GetColor('Misc', 'JAVASCRIPT', 'Script items', "Miss log color");
+    }
+    if(shot){
+        if(Globals.Tickcount() == shottick + 1 && hit != true){
+            var log = new Log("Shot missed", missColor);
+            logs.push(log);
+            Cheat.PrintColor(log.color, log.content + "\n");
+            shottick = 0;
+            hit = false;
+        }
+        else if(Globals.Tickcount() == shottick + 1 && hit == true){
+            hit = false;
+            shottick = 0;
+        }
     }
 }
 var fLoaded = false;
@@ -376,6 +410,8 @@ function DrawLogs() {
                     Render.StringCustom(5, i * 13, 0, logs[i].content, logs[i].color, font);
                 }
             }
+
+            //Increase the number after the -= to increase how fast it fades away 
             logs[0].color[3] -= 1;
             if (logs[0].color[3] <= 0) {
                 logs.shift();
@@ -405,7 +441,7 @@ function main() {
     UI.AddLabel("--- Ragebot logs ---");
     createDropdown("Ragebot log options", ["Add velocity", "Add viewangles", "Add hitchance", "Add safe point", "Add exploit", "Add exploit info"], true);
 
-    createDropdown("Other log types", ["Damage taken", "Damage given"], true);
+    createDropdown("Other log types", ["Miss log", "Damage taken", "Damage given"], true);
 
     //Add the palettes here in the list
     createDropdown("Color theme", ["None", "estrogen", "rainbow", "vaporwave", "cyberpunk"], false);
@@ -414,12 +450,13 @@ function main() {
     UI.AddColorPicker("Ragebot log color");
     UI.AddColorPicker("Damage taken log color");
     UI.AddColorPicker("Damage given log color");
+    UI.AddColorPicker("Miss log color");
     UI.AddCheckbox("Draw logs on screen")
     UI.AddCheckbox("Mode 2")
     UI.AddSliderInt("Max logs", 1, 20);
     UI.AddLabel("--- --- ---");
 
-
+    Cheat.RegisterCallback("CreateMove", "MissLog");
     Cheat.RegisterCallback("ragebot_fire", "RagebotLog");
     Cheat.RegisterCallback("player_hurt", "DamageTakenLog");
     Cheat.RegisterCallback("player_hurt", "DamageGivenLog");
