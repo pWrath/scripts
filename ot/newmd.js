@@ -123,7 +123,7 @@ function handleDraw() {
 function main() {
     UI.AddHotkey("override hotkey")
     UI.AddColorPicker("override indicator color");
-    UI.AddDropdown("Weapon type", ["general", "pistol", "heavy pistol", "scout", "awp", "autosniper"], false);
+    UI.AddDropdown("Weapon type", ["general", "pistol", "heavy pistol", "scout", "awp", "autosniper"]);
     UI.AddSliderInt("general override", 0, 130);
     UI.AddSliderInt("pistol override", 0, 130);
     UI.AddSliderInt("heavy pistol override", 0, 130);
