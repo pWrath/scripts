@@ -1,46 +1,3 @@
-var binlib = {};
-function dictLength(dict) {
-    var count = 0;
-    for (_ in dict) {
-        count++;
-    }
-    return count;
-}
-createDropdown = function (name, values, multi) {
-    UI[multi ? "AddMultiDropdown" : "AddDropdown"](name, values);
-
-    binlib[name] = { "multi": multi, "values": {} };
-
-    multi && values.reverse();
-
-    var i = 0; for (value in values) {
-        var index = multi ? (1 << (values.length - (i + 1))) : i;
-        binlib[name].values[index] = values[value];
-        i++;
-    }
-}
-fetchDropdown = function (name) {
-    var selection = (name ? [] : {})
-    var bin = UI.GetValue("Misc", name);
-
-    !name && function () { for (dropdown in binlib) selection[dropdown] = fetchDropdown(dropdown) }();
-
-    if (name) {
-        !binlib[name].multi && bin == 0 && selection.push(binlib[name].values[0]) && function () { return selection; }();
-        for (var i = dictLength(binlib[name].values) - 1; i >= 0; i--) {
-            if (!binlib[name].multi && i == 0) continue;
-
-            var index = binlib[name].multi ? (1 << i) : i;
-            if (bin - index >= 0) {
-                bin -= (index);
-                selection.push(binlib[name].values[index]);
-            }
-        }
-    }
-
-    return selection;
-}
-
 var pistolNames = ["usp s", "cz75 auto", "dual berettas", "dual berettas", "five seven", "glock 18", "p200", "p250", "tec 9"]
 var heavypistolNames = ["desert eagle", "r8 revolver"]
 var autosniperNames = ["scar 20", "g3sg1"]
@@ -108,24 +65,26 @@ function handleMenu() {
     UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "scout override", false);
     UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "awp override", false);
     UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "autosniper override", false);
-    var selected = fetchDropdown("Weapon type")
-    if (selected.indexOf("general") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "general override", true);
-    }
-    else if (selected.indexOf("pistol") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "pistol override", true);
-    }
-    else if (selected.indexOf("heavy pistol") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "heavy pistol override", true);
-    }
-    else if (selected.indexOf("scout") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "scout override", true);
-    }
-    else if (selected.indexOf("awp") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "awp override", true);
-    }
-    else if (selected.indexOf("autosniper") != -1) {
-        UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "autosniper override", true);
+    var selected = UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "Weapon type")
+    switch (selected) {
+       case 0: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "general override", true);
+       break;
+       case 1: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "pistol override", true);
+       break;
+       case 2: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "heavy pistol override", true);
+       break;
+       case 3: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "scout override", true);
+       break;
+       case 4: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "awp override", true);
+       break;
+       case 5: 
+       UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "autosniper override", true);
+       break;
     }
 
 }
@@ -161,28 +120,16 @@ function handleDraw() {
 
     }
 }
-
-
-
 function main() {
     UI.AddHotkey("override hotkey")
     UI.AddColorPicker("override indicator color");
-    createDropdown("Weapon type", ["general", "pistol", "heavy pistol", "scout", "awp", "autosniper"], false);
+    UI.AddDropdown("Weapon type", ["general", "pistol", "heavy pistol", "scout", "awp", "autosniper"], false);
     UI.AddSliderInt("general override", 0, 130);
     UI.AddSliderInt("pistol override", 0, 130);
     UI.AddSliderInt("heavy pistol override", 0, 130);
     UI.AddSliderInt("scout override", 0, 130);
     UI.AddSliderInt("awp override", 0, 130);
     UI.AddSliderInt("autosniper override", 0, 130);
-
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "general override", false);
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "pistol override", false);
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "heavy pistol override", false);
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "scout override", false);
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "awp override", false);
-    UI.SetEnabled('Misc', 'JAVASCRIPT', 'Script items', "autosniper override", false);
-
-
 
     general = new WeaponCFG(UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "general override"), UI.GetValue("Rage", "GENERAL", "Targeting", "Minimum damage"))
     pistol = new WeaponCFG(UI.GetValue('Misc', 'JAVASCRIPT', 'Script items', "pistol override"), UI.GetValue("Rage", "PISTOL", "Targeting", "Minimum damage"))
